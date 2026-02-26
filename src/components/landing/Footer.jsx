@@ -16,11 +16,8 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="flex items-center -space-x-6 mb-4 hover:opacity-80 transition-opacity">
-              <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-32 h-32 object-contain" />
-              <span className="font-display font-bold text-xl text-white">
-                SkillStack
-              </span>
+            <Link to="/" className="flex items-center mb-4 hover:opacity-80 transition-opacity">
+              <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-48 h-20 object-contain" />
             </Link>
             <p className="font-body text-sm text-white/40 leading-relaxed max-w-[180px]">
               The command center for ambitious professionals.

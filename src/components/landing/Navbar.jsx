@@ -40,11 +40,8 @@ export default function Navbar({ onCTAClick }) {
     >
       <div className="max-w-[1280px] mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center -space-x-6 hover:opacity-80 transition-opacity">
-          <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-32 h-32 object-contain" />
-          <span className="font-display font-bold text-xl text-white tracking-tight">
-            SkillStack
-          </span>
+        <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-48 h-20 object-contain" />
         </Link>
 
         {/* Desktop Nav */}

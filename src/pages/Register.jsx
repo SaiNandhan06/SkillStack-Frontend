@@ -54,9 +54,8 @@ export default function Register() {
 
                 <div className="relative bg-[#0F0F17] rounded-2xl p-8 shadow-2xl">
                     <div className="flex justify-center mb-8">
-                        <Link to="/" className="flex items-center -space-x-6">
-                            <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-32 h-32 object-contain" />
-                            <span className="font-display font-bold text-xl text-white tracking-tight">SkillStack</span>
+                        <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
+                            <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-56 h-28 object-contain" />
                         </Link>
                     </div>
 

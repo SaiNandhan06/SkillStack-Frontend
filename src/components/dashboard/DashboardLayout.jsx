@@ -50,10 +50,9 @@ export default function DashboardLayout() {
             <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#0F0F17] border-r border-white/5 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div className="flex flex-col h-full">
                     {/* Logo */}
-                    <div className="p-6 border-b border-white/5">
-                        <Link to="/" className="flex items-center -space-x-6 hover:opacity-80 transition-opacity">
-                            <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-32 h-32 object-contain" />
-                            <span className="font-display font-bold text-xl text-white tracking-tight">SkillStack</span>
+                    <div className="p-2 border-b border-white/5 flex justify-center">
+                        <Link to="/" className="flex items-center justify-center hover:opacity-80 transition-opacity w-full">
+                            <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-44 h-28 object-contain" />
                         </Link>
                     </div>
 
@@ -109,9 +108,8 @@ export default function DashboardLayout() {
 
                 {/* Mobile header */}
                 <header className="lg:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#0F0F17]">
-                    <Link to="/" className="flex items-center -space-x-4 hover:opacity-80 transition-opacity">
-                        <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-16 h-16 object-contain" />
-                        <span className="font-display font-bold text-lg text-white">SkillStack</span>
+                    <Link to="/" className="flex items-center justify-center hover:opacity-80 transition-opacity">
+                        <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-24 h-14 object-contain" />
                     </Link>
                     <div className="flex items-center gap-4">
                         <button onClick={toggleTheme} className="text-white/50 hover:text-white">
