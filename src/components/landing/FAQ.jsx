@@ -4,39 +4,39 @@ import { Plus, Minus } from "lucide-react";
 
 const faqs = [
   {
-    question: "How does SkillStack's AI signal engine work?",
+    question: "How does SkillStack's AI engine work?",
     answer:
-      "Our AI engine continuously ingests over 10,000 data signals including market microstructure, sentiment from financial filings, alternative data sources, and cross-asset correlations. Machine learning models trained on 20+ years of market data identify patterns and generate probability-weighted signals in under 100ms. Each signal includes a confidence score, historical win rate, and risk-adjusted expected value.",
+      "Our AI engine analyzes millions of data points from job boards, industry reports, and active professionals to recommend the most valuable skills and certifications for your specific career path.",
   },
   {
-    question: "What level of data latency can I expect?",
+    question: "How do I track my active certificates?",
     answer:
-      "Professional and Enterprise plans offer sub-100ms real-time data feeds through our co-located infrastructure in 12 global data centers. Analyst plans receive 1-minute delayed data. For HFT requirements, our Enterprise co-location option delivers sub-millisecond latency with direct market feed access.",
+      "You easily upload your certificates and set their expiration dates. Our intelligent dashboard tracks these dates and sends color-coded alerts (green, yellow, red) as the expiration approaches.",
   },
   {
     question: "How is my data secured and kept private?",
     answer:
-      "SkillStack is SOC 2 Type II certified and uses AES-256 encryption at rest and TLS 1.3 in transit. We employ a zero-trust architecture with mandatory MFA and role-based access controls. Your portfolio data is never shared with other clients or used to train models without explicit consent. Enterprise clients can opt for complete data isolation.",
+      "SkillStack is SOC 2 Type II certified and uses AES-256 encryption. Your career data and personal goals are protected with robust privacy toggles, allowing you to choose what is public and private.",
   },
   {
-    question: "Can I integrate SkillStack with my existing systems?",
+    question: "Can I integrate SkillStack with my LinkedIn profile?",
     answer:
-      "Yes. We offer a RESTful API, WebSocket feeds, and FIX protocol support for order management systems. Pre-built integrations exist for Bloomberg Terminal, FactSet, Refinitiv Eikon, and 50+ prime brokers. Our SDK supports Python, JavaScript, and Java with comprehensive documentation.",
+      "Yes. You can generate a beautifully designed, shareable public profile link to showcase your validated skills and active certifications directly on LinkedIn or your resume.",
   },
   {
-    question: "What's the onboarding process for Enterprise clients?",
+    question: "How does the goal tracking feature work?",
     answer:
-      "Enterprise onboarding includes a dedicated solutions architect, customized data integration setup, staff training sessions, and a parallel-run period to validate signal quality against your existing systems. Typical onboarding completes within 2-4 weeks. You'll have a named account manager and 24/7 direct support throughout.",
+      "SkillStack includes a Kanban-style board where you can set learning milestones, track your progress from 'Not Started' to 'Completed', and set target dates to ensure you hit your career targets.",
   },
   {
-    question: "Does SkillStack support crypto and alternative assets?",
+    question: "Does SkillStack support custom skills and certificates?",
     answer:
-      "Absolutely. We cover 150+ traditional exchanges plus all major crypto exchanges with unified normalization. Alternative assets including private credit, commodities, and real estate indices are supported through our data partnerships. Custom asset class integrations are available on Enterprise plans.",
+      "Absolutely. While we provide a comprehensive database of industry-standard credentials, you can easily add custom skills, internal company courses, or niche certifications to your portfolio.",
   },
   {
     question: "Is there a free trial available?",
     answer:
-      "All plans include a 14-day full-feature free trial with no credit card required. You'll get access to live data, AI signals, and the complete analytics suite. Our team will personally onboard you and ensure you experience the platform's full value within the trial period.",
+      "All plans include a 14-day full-feature free trial with no credit card required. You'll get access to the complete career tracking dashboard and AI insights.",
   },
 ];
 
@@ -105,8 +105,8 @@ export default function FAQ() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
                 className={`rounded-xl border transition-all duration-300 overflow-hidden ${openIndex === i
-                    ? "border-[#00D9FF]/30 bg-[#00D9FF]/5"
-                    : "border-white/8 bg-[#12121A] hover:border-white/15"
+                  ? "border-[#00D9FF]/30 bg-[#00D9FF]/5"
+                  : "border-white/8 bg-[#12121A] hover:border-white/15"
                   }`}
                 style={
                   openIndex === i
@@ -126,8 +126,8 @@ export default function FAQ() {
                   </span>
                   <div
                     className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ml-4 transition-all duration-300 ${openIndex === i
-                        ? "bg-[#00D9FF]/15 text-[#00D9FF]"
-                        : "bg-white/5 text-white/40"
+                      ? "bg-[#00D9FF]/15 text-[#00D9FF]"
+                      : "bg-white/5 text-white/40"
                       }`}
                   >
                     {openIndex === i ? (

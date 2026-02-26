@@ -5,39 +5,39 @@ import { Play, X, Quote } from "lucide-react";
 const testimonials = [
   {
     name: "Alexandra Kim",
-    role: "CIO, Apex Capital Partners",
+    role: "Senior Software Engineer, TechCorp",
     avatar: "AK",
     content:
-      "SkillStack transformed how we approach portfolio management. The AI signals have added 340bps of alpha to our flagship fund in under six months. It's not a tool — it's a competitive advantage.",
+      "SkillStack transformed how I manage my career progression. The certification expiration alerts have saved me twice, and the public profile helped me land my current role.",
     gradient: "from-[#00D9FF] to-[#A855F7]",
   },
   {
     name: "Marcus Chen",
-    role: "Head of Quant, Meridian Asset Mgmt",
+    role: "Engineering Manager, Global Systems",
     avatar: "MC",
     content:
-      "We evaluated 14 platforms before choosing SkillStack. The backtesting infrastructure alone saved us 3 months of engineering time. The risk dashboard is the best I've seen in 18 years of trading.",
+      "We evaluated a dozen tools before choosing SkillStack for our team. The skill gap analysis feature alone saved us months of manual tracking. The team dashboard is intuitive and powerful.",
     gradient: "from-[#A855F7] to-[#00D9FF]",
   },
   {
     name: "Sarah Okonkwo",
-    role: "Portfolio Manager, BlueStar Ventures",
+    role: "Cloud Architect, InnovateHQ",
     avatar: "SO",
     content:
-      "The real-time analytics cut our decision latency from hours to minutes. We caught two major rebalancing opportunities last quarter that our previous system would have missed entirely.",
+      "The integrated goal tracking system keeps me focused on what certifications matter most. It's the only platform I need to prove my continuous learning journey to employers.",
     gradient: "from-[#00D9FF] to-[#A855F7]",
   },
 ];
 
 const logos = [
-  "BlackRock",
-  "Vanguard",
-  "Citadel",
-  "Bridgewater",
-  "Two Sigma",
-  "Renaissance",
-  "DE Shaw",
-  "AQR",
+  "AWS",
+  "Google Cloud",
+  "CompTIA",
+  "Microsoft",
+  "Cisco",
+  "Oracle",
+  "Red Hat",
+  "Coursera",
 ];
 
 export default function Testimonials() {
@@ -124,10 +124,10 @@ export default function Testimonials() {
               {/* Caption */}
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="font-display font-bold text-white text-lg mb-1">
-                  See SkillStack in Action
+                  View Career Management Demo
                 </div>
                 <div className="font-mono-accent text-xs text-white/50 uppercase tracking-widest">
-                  3:47 — Platform Overview
+                  2:15 — Skill Tracking & Portfolio
                 </div>
               </div>
             </div>
@@ -146,8 +146,8 @@ export default function Testimonials() {
                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                 onClick={() => setActiveIndex(i)}
                 className={`relative rounded-xl border p-4 cursor-pointer transition-all duration-300 ${activeIndex === i
-                    ? "border-[#00D9FF]/30 bg-[#00D9FF]/5"
-                    : "border-white/8 bg-[#12121A] hover:border-white/15"
+                  ? "border-[#00D9FF]/30 bg-[#00D9FF]/5"
+                  : "border-white/8 bg-[#12121A] hover:border-white/15"
                   }`}
               >
                 {activeIndex === i && (
@@ -185,7 +185,7 @@ export default function Testimonials() {
           className="border-t border-white/5 pt-12"
         >
           <p className="font-mono-accent text-xs text-white/30 uppercase tracking-widest text-center mb-8">
-            Trusted by leading institutions
+            Trusted by professionals certified with
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {logos.map((logo) => (
@@ -237,7 +237,7 @@ export default function Testimonials() {
                       <Play className="w-8 h-8 text-[#00D9FF] ml-1.5" />
                     </div>
                     <p className="font-mono-accent text-sm text-white/50 uppercase tracking-widest">
-                      Demo Video Placeholder
+                      Platform Walkthrough Video
                     </p>
                   </div>
                 </div>

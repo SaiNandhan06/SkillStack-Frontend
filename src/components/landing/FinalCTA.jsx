@@ -59,8 +59,8 @@ export default function FinalCTA({ onCTAClick }) {
             transition={{ duration: 0.6, delay: 0.25 }}
             className="font-body text-xl text-white/50 mb-12 max-w-xl mx-auto leading-relaxed"
           >
-            Join 2,400+ finance teams already using SkillStack to generate
-            superior risk-adjusted returns. 14-day free trial, no credit card
+            Join 2,400+ professionals already using SkillStack to accelerate their
+            career trajectories. 14-day free trial, no credit card
             required.
           </motion.p>
 
@@ -99,10 +99,10 @@ export default function FinalCTA({ onCTAClick }) {
             className="flex flex-wrap items-center justify-center gap-6 mt-12"
           >
             {[
-              "SOC 2 Type II",
-              "99.99% Uptime SLA",
-              "AES-256 Encrypted",
-              "GDPR Compliant",
+              "Industry Recognized",
+              "Verified Certifications",
+              "Skill Gap Analysis",
+              "Career Tracking",
             ].map((badge) => (
               <div key={badge} className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#00D9FF]" />

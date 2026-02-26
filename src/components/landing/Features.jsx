@@ -14,80 +14,80 @@ import {
 const features = [
   {
     icon: Brain,
-    label: "AI Engine",
-    title: "Predictive Intelligence at Scale",
+    label: "AI Guidance",
+    title: "Predictive Career Insights",
     description:
-      "Our proprietary ML models analyze 10,000+ data signals in real time to surface actionable insights before the market moves. Stay perpetually ahead.",
+      "Our ML models analyze industry trends to surface high-value skills and certifications before they become mainstream. Stay perpetually ahead.",
     accent: "#00D9FF",
     gradient: "from-[#00D9FF]/10 to-transparent",
-    tag: "CORE ENGINE",
+    tag: "AI PATHWAYS",
   },
   {
     icon: BarChart2,
     label: "Analytics",
-    title: "Real-Time Portfolio Analytics",
+    title: "Real-Time Skill Analytics",
     description:
-      "Live dashboards with sub-100ms latency. Drill into positions, attribution, and risk exposure across all asset classes with surgical precision.",
+      "Live dashboards to track your learning hours, skill proficiency, and certification statuses with surgical precision.",
     accent: "#A855F7",
     gradient: "from-[#A855F7]/10 to-transparent",
-    tag: "ANALYTICS",
+    tag: "TRACKING",
   },
   {
     icon: Shield,
-    label: "Risk",
-    title: "Institutional Risk Management",
+    label: "Goal tracking",
+    title: "Robust Goal Management",
     description:
-      "Multi-factor risk modeling with stress testing, VaR calculation, and automated circuit breakers. Sleep soundly knowing every downside is quantified.",
+      "Kanban-style boards and structured milestone tracking ensure you actually hit your career transition targets.",
     accent: "#00D9FF",
     gradient: "from-[#00D9FF]/10 to-transparent",
-    tag: "RISK",
+    tag: "TARGETS",
   },
   {
     icon: Globe,
-    label: "Coverage",
-    title: "Global Market Coverage",
+    label: "Portfolio",
+    title: "Public Skill Portfolio",
     description:
-      "Access 150+ exchanges, crypto markets, and alternative data sources — unified under one normalized API. No more data silos.",
+      "Showcase your validated skills and active certifications to recruiters with a beautifully designed, shareable public profile link.",
     accent: "#A855F7",
     gradient: "from-[#A855F7]/10 to-transparent",
-    tag: "COVERAGE",
+    tag: "PROFILE",
   },
   {
     icon: Zap,
-    label: "Speed",
-    title: "Ultra-Low Latency Execution",
+    label: "Expiry",
+    title: "Automated Renewals",
     description:
-      "Co-located servers in 12 data centers globally. Order routing optimized by AI to minimize slippage and maximize fill rates.",
+      "Never let a certification lapse again. Intelligent color-coded tracking systems monitor your credentials and alert you when renewals are due.",
     accent: "#00D9FF",
     gradient: "from-[#00D9FF]/10 to-transparent",
-    tag: "EXECUTION",
+    tag: "COMPLIANCE",
   },
   {
     icon: Lock,
     label: "Security",
-    title: "Bank-Grade Security Architecture",
+    title: "Enterprise-Grade Privacy",
     description:
-      "SOC 2 Type II certified, AES-256 encryption, and zero-trust network architecture. Your data is protected at every layer.",
+      "SOC 2 Type II certified. Your career data, certificates, and personal goals are protected with robust privacy toggles and encryption.",
     accent: "#A855F7",
     gradient: "from-[#A855F7]/10 to-transparent",
     tag: "SECURITY",
   },
   {
     icon: TrendingUp,
-    label: "Backtesting",
-    title: "Strategy Backtesting & Simulation",
+    label: "Growth",
+    title: "Skill Gap Analysis",
     description:
-      "20+ years of tick-level historical data. Run strategies through any market regime and validate performance before deploying capital.",
+      "Map your current proficiencies against target roles. Automatically identify missing credentials required for your next promotion.",
     accent: "#00D9FF",
     gradient: "from-[#00D9FF]/10 to-transparent",
-    tag: "RESEARCH",
+    tag: "PLANNING",
   },
   {
     icon: Bell,
     label: "Alerts",
-    title: "Intelligent Alert System",
+    title: "Intelligent Notifications",
     description:
-      "AI-prioritized notifications that learn from your behavior. Get the signals that matter, not the noise — delivered via any channel.",
+      "Get the nudges that matter—from upcoming certification expiries to goal deadlines—delivered straight to your dashboard.",
     accent: "#A855F7",
     gradient: "from-[#A855F7]/10 to-transparent",
     tag: "ALERTS",
@@ -196,7 +196,7 @@ export default function Features() {
             className="font-display font-extrabold text-white leading-tight mb-6"
             style={{ fontSize: "clamp(36px, 5vw, 64px)" }}
           >
-            Built for the{" "}
+            Built for{" "}
             <span
               style={{
                 background: "linear-gradient(135deg, #00D9FF, #A855F7)",
@@ -205,11 +205,11 @@ export default function Features() {
                 backgroundClip: "text",
               }}
             >
-              elite
+              professionals
             </span>
           </h2>
           <p className="font-body text-lg text-white/50 max-w-xl mx-auto leading-relaxed">
-            Every feature engineered for professional-grade performance. No
+            Every feature engineered to accelerate your career trajectory. No
             compromises.
           </p>
         </motion.div>

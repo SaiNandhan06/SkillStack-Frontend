@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./landing/Navbar";
 import Hero from "./landing/Hero";
 import StatsBar from "./landing/StatsBar";
@@ -8,13 +8,12 @@ import Pricing from "./landing/Pricing";
 import FAQ from "./landing/FAQ";
 import FinalCTA from "./landing/FinalCTA";
 import Footer from "./landing/Footer";
-import DemoModal from "./landing/DemoModal";
 
 function Home() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleCTAClick = () => {
-    setModalOpen(true);
+    navigate('/register');
   };
 
   return (
@@ -28,7 +27,6 @@ function Home() {
       <FAQ />
       <FinalCTA onCTAClick={handleCTAClick} />
       <Footer />
-      <DemoModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 }

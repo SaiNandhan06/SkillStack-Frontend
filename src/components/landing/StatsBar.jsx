@@ -3,17 +3,17 @@ import { motion, useInView } from "framer-motion";
 
 const stats = [
   {
-    value: "$2.4T+",
-    label: "Assets Under Management",
+    value: "150k+",
+    label: "Active Certifications",
     sublabel: "Managed on platform",
   },
-  { value: "94ms", label: "Average Latency", sublabel: "Real-time data feeds" },
+  { value: "85%", label: "Task Completion", sublabel: "Average completion rate" },
   {
     value: "34.7%",
-    label: "Average Alpha Generated",
-    sublabel: "YTD across all clients",
+    label: "Career Progression",
+    sublabel: "Reported average increase",
   },
-  { value: "99.99%", label: "Uptime SLA", sublabel: "Enterprise guarantee" },
+  { value: "99.99%", label: "Goal Commitment", sublabel: "Platform consistency" },
 ];
 
 export default function StatsBar() {

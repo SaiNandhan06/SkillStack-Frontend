@@ -4,67 +4,56 @@ import { Check, Zap, ArrowRight } from "lucide-react";
 
 const plans = [
   {
-    name: "Analyst",
-    price: "149",
+    name: "Starter",
+    price: "0",
     period: "/mo",
     description:
-      "For individual analysts and small teams getting started with institutional-grade tools.",
+      "For individuals looking to track their skills and share a public portfolio.",
     features: [
-      "Up to 3 users",
-      "50 data sources",
-      "Basic AI signals",
-      "1-minute data latency",
+      "Up to 5 active certifications",
+      "Public profile link",
+      "Basic goal tracking",
+      "Basic AI insights",
       "Email support",
-      "5 portfolio strategies",
-      "Standard API access",
     ],
-
     cta: "Start Free Trial",
     accent: "#00D9FF",
     highlighted: false,
     tag: null,
   },
   {
-    name: "Professional",
-    price: "499",
+    name: "Pro",
+    price: "999",
     period: "/mo",
     description:
-      "For established funds and trading desks demanding real-time performance and AI-driven alpha.",
+      "For ambitious career climbers who need advanced certificate oversight.",
     features: [
-      "Up to 25 users",
-      "Unlimited data sources",
-      "Full AI suite + signals",
-      "Real-time data (< 100ms)",
+      "Unlimited certifications",
+      "AI skill gap analysis",
+      "Advanced goal tracking",
+      "Custom expiration alerts",
       "Priority 24/7 support",
-      "Unlimited strategies",
-      "Full API + webhooks",
-      "Backtesting engine",
-      "Risk modeling suite",
+      "Premium public profile",
     ],
-
     cta: "Start Free Trial",
     accent: "#A855F7",
     highlighted: true,
     tag: "MOST POPULAR",
   },
   {
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
+    name: "Team",
+    price: "2499",
+    period: "/mo",
     description:
-      "For institutional asset managers requiring white-glove service, custom integrations, and SLAs.",
+      "For managers to track team upskilling and compliance requirements.",
     features: [
-      "Unlimited users",
-      "Custom data integrations",
-      "Bespoke AI models",
-      "Co-location option",
-      "Dedicated account team",
-      "Custom SLA (99.99%)",
-      "On-premise deployment",
-      "Custom reporting",
-      "Regulatory compliance pack",
+      "Up to 10 team members",
+      "Team upskilling dashboard",
+      "Compliance reporting",
+      "Custom skill mapping",
+      "Role-based access",
+      "Dedicated account manager",
     ],
-
     cta: "Contact Sales",
     accent: "#00D9FF",
     highlighted: false,
@@ -132,16 +121,15 @@ export default function Pricing() {
                 scale: 1.02,
                 transition: { duration: 0.2 },
               }}
-              className={`relative rounded-2xl border p-8 flex flex-col transition-all duration-300 ${
-                plan.highlighted
-                  ? "border-[#A855F7]/40 bg-[#12121A]"
-                  : "border-white/8 bg-[#12121A] hover:border-white/20"
-              }`}
+              className={`relative rounded-2xl border p-8 flex flex-col transition-all duration-300 ${plan.highlighted
+                ? "border-[#A855F7]/40 bg-[#12121A]"
+                : "border-white/8 bg-[#12121A] hover:border-white/20"
+                }`}
               style={
                 plan.highlighted
                   ? {
-                      boxShadow: `0 0 40px rgba(168, 85, 247, 0.15), 0 0 80px rgba(168, 85, 247, 0.05)`,
-                    }
+                    boxShadow: `0 0 40px rgba(168, 85, 247, 0.15), 0 0 80px rgba(168, 85, 247, 0.05)`,
+                  }
                   : {}
               }
             >
@@ -185,7 +173,7 @@ export default function Pricing() {
                   ) : (
                     <>
                       <span className="font-mono-accent text-white/50 text-xl">
-                        $
+                        ₹
                       </span>
                       <span className="font-display font-extrabold text-white text-5xl">
                         {plan.price}
@@ -236,15 +224,15 @@ export default function Pricing() {
                 style={
                   plan.highlighted
                     ? {
-                        background: "linear-gradient(135deg, #A855F7, #00D9FF)",
-                        color: "black",
-                        boxShadow: "0 0 20px rgba(168, 85, 247, 0.4)",
-                      }
+                      background: "linear-gradient(135deg, #A855F7, #00D9FF)",
+                      color: "black",
+                      boxShadow: "0 0 20px rgba(168, 85, 247, 0.4)",
+                    }
                     : {
-                        background: `${plan.accent}15`,
-                        color: plan.accent,
-                        border: `1px solid ${plan.accent}30`,
-                      }
+                      background: `${plan.accent}15`,
+                      color: plan.accent,
+                      border: `1px solid ${plan.accent}30`,
+                    }
                 }
               >
                 {plan.cta}

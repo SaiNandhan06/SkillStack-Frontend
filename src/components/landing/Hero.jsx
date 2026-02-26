@@ -5,7 +5,9 @@ import {
   Shield,
   Zap,
   Activity,
-  DollarSign,
+  Award,
+  BookOpen,
+  Target,
 } from "lucide-react";
 
 export default function Hero({ onCTAClick }) {
@@ -44,7 +46,7 @@ export default function Hero({ onCTAClick }) {
           className="font-display font-extrabold text-white leading-[1.05] tracking-tight mb-6"
           style={{ fontSize: "clamp(56px, 8vw, 110px)" }}
         >
-          Financial{" "}
+          Career Growth{" "}
           <span
             className="relative inline-block"
             style={{
@@ -54,10 +56,10 @@ export default function Hero({ onCTAClick }) {
               backgroundClip: "text",
             }}
           >
-            Intelligence
+            Redefined
           </span>
           <br />
-          Redefined.
+          Platform.
         </motion.h1>
 
         {/* Subtitle */}
@@ -67,9 +69,7 @@ export default function Hero({ onCTAClick }) {
           transition={{ duration: 0.6, delay: 0.35 }}
           className="font-body text-lg md:text-xl text-white/55 max-w-2xl leading-relaxed mb-10"
         >
-          The command center for sophisticated finance teams. Real-time
-          analytics, AI-driven insights, and enterprise-grade security — unified
-          in one luminous platform.
+          The command center for ambitious professionals. Real-time skill tracking, AI-driven career insights, and holistic certification management — unified in one luminous platform.
         </motion.p>
 
         {/* CTAs */}
@@ -77,25 +77,14 @@ export default function Hero({ onCTAClick }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45 }}
-          className="flex flex-col sm:flex-row items-center gap-4 mb-20"
+          className="flex flex-col items-center justify-center mb-20 w-full"
         >
           <button
             onClick={onCTAClick}
-            className="group flex items-center gap-2 font-mono-accent text-sm uppercase tracking-widest px-8 py-4 rounded-xl bg-[#00D9FF] text-black font-medium transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] animate-glow-pulse"
+            className="group flex items-center justify-center gap-2 font-mono-accent text-sm uppercase tracking-widest px-10 py-4 w-full sm:w-auto min-w-[240px] rounded-xl bg-[#00D9FF] text-black font-medium transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] animate-glow-pulse"
           >
             Start Free Trial
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
-          </button>
-          <button
-            className="flex items-center gap-2 font-body text-sm text-white/60 hover:text-white transition-colors duration-200"
-            onClick={onCTAClick}
-          >
-            <span className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center bg-white/5">
-              <svg className="w-3 h-3 ml-0.5" fill="white" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-            Watch Demo
           </button>
         </motion.div>
 
@@ -127,10 +116,10 @@ export default function Hero({ onCTAClick }) {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <div className="font-display font-bold text-white text-lg mb-1">
-                    Portfolio Overview
+                    Skill Portfolio
                   </div>
                   <div className="font-mono-accent text-xs text-white/40 uppercase tracking-widest">
-                    Updated 2s ago
+                    Updated just now
                   </div>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#00D9FF]/10 border border-[#00D9FF]/20">
@@ -145,30 +134,30 @@ export default function Hero({ onCTAClick }) {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                 {[
                   {
-                    label: "Total AUM",
-                    value: "$2.84B",
-                    change: "+12.4%",
-                    icon: DollarSign,
+                    label: "Total Skills",
+                    value: "24",
+                    change: "+3 this month",
+                    icon: Award,
                     positive: true,
                   },
                   {
-                    label: "Daily P&L",
-                    value: "+$18.2M",
-                    change: "+2.1%",
-                    icon: TrendingUp,
+                    label: "Learning Hrs",
+                    value: "128h",
+                    change: "+12h",
+                    icon: BookOpen,
                     positive: true,
                   },
                   {
-                    label: "Risk Score",
-                    value: "0.34",
-                    change: "-0.02",
-                    icon: Shield,
+                    label: "Goal Progress",
+                    value: "86%",
+                    change: "+4%",
+                    icon: Target,
                     positive: true,
                   },
                   {
-                    label: "Velocity",
-                    value: "94.2ms",
-                    change: "-8ms",
+                    label: "Active Certs",
+                    value: "7",
+                    change: "1 expiring",
                     icon: Zap,
                     positive: true,
                   },
@@ -227,14 +216,14 @@ export default function Hero({ onCTAClick }) {
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-2 h-2 rounded-full bg-[#00D9FF] animate-pulse" />
                 <span className="font-mono-accent text-xs text-white/50 uppercase">
-                  Returns
+                  Progress
                 </span>
               </div>
               <div className="font-display font-bold text-[#00D9FF] text-xl">
-                +34.7%
+                +15%
               </div>
               <div className="font-mono-accent text-xs text-white/30">
-                YTD Performance
+                Monthly Growth
               </div>
             </motion.div>
           </div>
@@ -253,14 +242,14 @@ export default function Hero({ onCTAClick }) {
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-2 h-2 rounded-full bg-[#A855F7] animate-pulse" />
                 <span className="font-mono-accent text-xs text-white/50 uppercase">
-                  AI Signal
+                  Expiry Alert
                 </span>
               </div>
               <div className="font-display font-bold text-[#A855F7] text-lg">
-                BUY ALERT
+                RENEW SOON
               </div>
               <div className="font-mono-accent text-xs text-white/30">
-                Confidence: 94.2%
+                Days left: 14
               </div>
             </motion.div>
           </div>
@@ -288,8 +277,8 @@ export default function Hero({ onCTAClick }) {
               ))}
             </div>
             <span className="font-body text-sm text-white/50">
-              <span className="text-white font-medium">2,400+</span> finance
-              teams trust SkillStack
+              <span className="text-white font-medium">2,400+</span> professionals
+              trust SkillStack
             </span>
           </div>
           <div className="flex items-center gap-1">
