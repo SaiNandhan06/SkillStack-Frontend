@@ -71,7 +71,7 @@ SkillStack utilizes distinct hook models bypassing the need for JSON mocks, nati
 
 ```bash
 # Clone the repository and move to directory
-git clone https://github.com/your-username/skillstack.git
+git clone https://github.com/SaiNandhan06/FSAD_P2.git
 cd skillstack
 
 # Install foundational dependencies
