@@ -8,7 +8,7 @@ This iteration acts as a highly capable prototype engineered to use browsers' `l
 
 ---
 
-## 🌟 Core Features
+##  Core Features
 
 - **Authentication Flow:** Fully interactive login and registration components wired with protected routing logic, abstracting `AuthContext` natively to mock server-side JWT workflows.
 - **Dynamic Dashboard:** A comprehensive analytical view showing acquisition trends, active certifications, urgent expiry warnings, and aggregated goal progress. 
@@ -22,7 +22,7 @@ This iteration acts as a highly capable prototype engineered to use browsers' `l
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+##  Tech Stack & Architecture
 
 - **Framework:** React 18 + Vite (High-speed HMR environment)
 - **Styling:** TailwindCSS + Vanilla CSS (Glassmorphism & Gradients)
@@ -34,7 +34,7 @@ This iteration acts as a highly capable prototype engineered to use browsers' `l
 
 ---
 
-## 📂 Architecture Breakdown
+##  Architecture Breakdown
 
 SkillStack utilizes distinct hook models bypassing the need for JSON mocks, natively formatting objects back to the browser namespace linked directly to the `user.id`.
 
@@ -64,14 +64,14 @@ SkillStack utilizes distinct hook models bypassing the need for JSON mocks, nati
 
 ---
 
-## 🚀 Installation & Local Execution
+##  Installation & Local Execution
 
 **Prerequisites:** 
 - Node.js (`v18.0.0+` recommended)
 
 ```bash
 # Clone the repository and move to directory
-git clone https://github.com/your-username/skillstack.git
+git clone https://github.com/SaiNandhan06/FSAD_P2.git
 cd skillstack
 
 # Install foundational dependencies
@@ -88,7 +88,7 @@ Navigate to `http://localhost:5173` to experience the deployed environment.
 
 ---
 
-## 🔮 Future Integration Pipeline
+##  Future Integration Pipeline
 
 SkillStack is built modularly. To upgrade the platform from a LocalStorage prototype into a full-scale web application, the data access layer can be trivially refactored:
 
