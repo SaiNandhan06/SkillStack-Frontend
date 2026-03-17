@@ -28,6 +28,26 @@ export function AuthProvider({ children }) {
 
     const login = async (email, password) => {
         return new Promise((resolve, reject) => {
+            // Hardcoded admin login
+            if (email === 'admin@skillstack.com' && password === 'admin123') {
+                const adminUser = {
+                    id: 'admin_id_1',
+                    name: 'System Admin',
+                    email: 'admin@skillstack.com',
+                    isAdmin: true
+                };
+                localStorage.setItem('skillstack_currentUser', adminUser.id);
+                // Also ensure admin exists in users list if needed, but for now just set it
+                const users = JSON.parse(localStorage.getItem('skillstack_users') || '[]');
+                if (!users.some(u => u.id === 'admin_id_1')) {
+                    users.push(adminUser);
+                    localStorage.setItem('skillstack_users', JSON.stringify(users));
+                }
+                setUser(adminUser);
+                resolve(adminUser);
+                return;
+            }
+
             const users = JSON.parse(localStorage.getItem('skillstack_users') || '[]');
             const foundUser = users.find(u => u.email === email && u.password === password);
             if (foundUser) {
@@ -62,8 +82,10 @@ export function AuthProvider({ children }) {
     };
 
     const logout = () => {
+        const wasAdmin = user?.isAdmin;
         localStorage.removeItem('skillstack_currentUser');
         setUser(null);
+        return wasAdmin; // return role to help with redirecting
     };
 
     const updateUser = (updatedData) => {

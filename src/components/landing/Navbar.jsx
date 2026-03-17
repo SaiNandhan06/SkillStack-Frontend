@@ -89,6 +89,12 @@ export default function Navbar({ onCTAClick }) {
                 {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </button>
               <Link
+                to="/admin-login"
+                className="font-mono-accent text-sm text-red-500/70 hover:text-red-500 transition-colors duration-200 uppercase tracking-wider mr-2"
+              >
+                Admin
+              </Link>
+              <Link
                 to="/login"
                 className="font-mono-accent text-sm text-white/70 hover:text-white transition-colors duration-200 uppercase tracking-wider"
               >
@@ -159,13 +165,29 @@ export default function Navbar({ onCTAClick }) {
                   </button>
                 </>
               ) : (
-                <Link
-                  to="/register"
-                  className="font-mono-accent text-xs uppercase tracking-widest px-5 py-2.5 rounded-lg bg-[#00D9FF] text-black font-medium mt-2 text-center"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Get Started
-                </Link>
+                <>
+                  <Link
+                    to="/admin-login"
+                    className="font-mono-accent text-xs uppercase tracking-widest px-5 py-2.5 rounded-lg border border-red-500/20 text-red-500 font-medium mt-2 text-center"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Admin Login
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="font-mono-accent text-xs uppercase tracking-widest px-5 py-2.5 rounded-lg border border-white/10 text-white font-medium mt-2 text-center"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="font-mono-accent text-xs uppercase tracking-widest px-5 py-2.5 rounded-lg bg-[#00D9FF] text-black font-medium mt-2 text-center"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Get Started
+                  </Link>
+                </>
               )}
             </div>
           </motion.div>

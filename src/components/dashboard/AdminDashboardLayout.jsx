@@ -2,49 +2,44 @@ import { useState } from 'react';
 import { NavLink, Outlet, Navigate, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { motion } from 'framer-motion';
 import {
     Moon,
     Sun,
-
     LayoutDashboard,
+    Users,
     Award,
-    Target,
-    Bell,
-    User,
     Settings,
     LogOut,
     Menu,
-    X,
-    BookOpen
+    History
 } from 'lucide-react';
 
 const navItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-    { icon: BookOpen, label: 'Skills', path: '/skills' },
-    { icon: Award, label: 'Certifications', path: '/certifications' },
-    { icon: Target, label: 'Goals', path: '/goals' },
-    { icon: Bell, label: 'Notifications', path: '/notifications' },
-    { icon: User, label: 'Public Profile', path: '/profile' },
-    { icon: Settings, label: 'Settings', path: '/settings' },
+    { icon: LayoutDashboard, label: 'Overview', path: '/admin/dashboard' },
+    { icon: Award, label: 'Pending Verifications', path: '/admin/certifications' },
+    { icon: History, label: 'History & Edits', path: '/admin/history' },
+    { icon: Users, label: 'Users', path: '/admin/users' },
+    { icon: Settings, label: 'System Settings', path: '/admin/settings' },
 ];
 
-export default function DashboardLayout() {
+export default function AdminDashboardLayout() {
     const { user, loading, logout } = useAuth();
     const { theme, toggleTheme } = useTheme();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const navigate = useNavigate();
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#0A0A0F] text-[#00D9FF]">Loading...</div>;
-    if (!user) return <Navigate to="/login" replace />;
-
-    const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+    if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#0A0A0F] text-red-500">Loading...</div>;
+    // Check if user is logged in AND is an admin
+    if (!user) return <Navigate to="/admin-login" replace />;
+    if (!user.isAdmin) return <Navigate to="/dashboard" replace />;
 
     const handleLogout = () => {
         logout();
-        navigate('/login');
+        navigate('/admin-login');
     };
+
+    const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
     return (
         <div className="min-h-screen bg-[#0A0A0F] font-body flex">
@@ -54,12 +49,14 @@ export default function DashboardLayout() {
             )}
 
             {/* Sidebar */}
-            <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#0F0F17] border-r border-white/5 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#0F0F17] border-r border-red-500/20 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div className="flex flex-col h-full">
                     {/* Logo */}
-                    <div className="p-2 border-b border-white/5 flex justify-center">
+                    <div className="p-4 border-b border-white/5 flex flex-col justify-center items-center">
                         <Link to="/" className="flex items-center justify-center hover:opacity-80 transition-opacity w-full">
-                            <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-44 h-28 object-contain" />
+                            <span className="font-display font-bold text-xl text-white tracking-widest uppercase flex items-center gap-2">
+                                <span className="text-red-500">Admin</span>Panel
+                            </span>
                         </Link>
                     </div>
 
@@ -71,8 +68,8 @@ export default function DashboardLayout() {
                                 to={item.path}
                                 onClick={() => setMobileMenuOpen(false)}
                                 className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl font-mono-accent text-xs uppercase tracking-widest transition-all duration-200 ${isActive
-                                    ? 'bg-[#00D9FF]/10 text-[#00D9FF] border border-[#00D9FF]/20'
-                                    : 'text-white/40 hover:bg-white/5 hover:text-white'
+                                    ? 'bg-red-500/10 text-red-500 border border-red-500/20'
+                                    : 'text-white/40 hover:bg-white/5 hover:text-red-400'
                                     }`}
                             >
                                 <item.icon className="w-4 h-4" />
@@ -84,12 +81,12 @@ export default function DashboardLayout() {
                     {/* User profile & Logout */}
                     <div className="p-4 border-t border-white/5">
                         <div className="flex items-center gap-3 px-4 py-3">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 border border-white/10 flex items-center justify-center text-xs font-bold text-white uppercase">
-                                {user.name ? user.name.slice(0, 2) : 'US'}
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-600 to-red-900 border border-white/10 flex items-center justify-center text-xs font-bold text-white uppercase">
+                                AD
                             </div>
                             <div className="flex-1 min-w-0">
                                 <p className="font-display font-semibold text-white text-sm truncate">{user.name}</p>
-                                <p className="font-body text-xs text-white/40 truncate">{user.email}</p>
+                                <p className="font-body text-xs text-white/40 truncate text-red-400/80">Administrator</p>
                             </div>
                             <button
                                 onClick={toggleTheme}
@@ -100,7 +97,7 @@ export default function DashboardLayout() {
                         </div>
                         <button
                             onClick={handleLogout}
-                            className="w-full mt-2 flex items-center gap-3 px-4 py-3 rounded-xl font-mono-accent text-xs uppercase tracking-widest text-red-400 hover:bg-red-400/10 transition-colors"
+                            className="w-full mt-2 flex items-center gap-3 px-4 py-3 rounded-xl font-mono-accent text-xs uppercase tracking-widest text-white/50 hover:bg-white/5 hover:text-white transition-colors"
                         >
                             <LogOut className="w-4 h-4" />
                             Log Out
@@ -115,13 +112,10 @@ export default function DashboardLayout() {
 
                 {/* Mobile header */}
                 <header className="lg:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#0F0F17]">
-                    <Link to="/" className="flex items-center justify-center hover:opacity-80 transition-opacity">
-                        <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-24 h-14 object-contain" />
-                    </Link>
+                    <span className="font-display font-bold text-lg text-white tracking-widest uppercase flex items-center gap-2">
+                        <span className="text-red-500">Admin</span>
+                    </span>
                     <div className="flex items-center gap-4">
-                        <button onClick={toggleTheme} className="text-white/50 hover:text-white">
-                            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                        </button>
                         <button onClick={toggleMenu} className="text-white/50 hover:text-white">
                             <Menu className="w-6 h-6" />
                         </button>

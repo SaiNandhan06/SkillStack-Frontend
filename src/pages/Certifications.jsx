@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, Download, Search, AlertCircle, CheckCircle, Clock, Trash2, Edit2, X } from 'lucide-react';
+import { Upload, Download, Search, AlertCircle, CheckCircle, Clock, Trash2, Edit2, X, RefreshCw } from 'lucide-react';
 import { useCertifications } from '../hooks/useLocalStorageData';
 
 const calculateStatus = (expiryDateStr) => {
@@ -62,7 +62,7 @@ export default function Certifications() {
         if (editingCert) {
             setCerts(prev => prev.map(c => c.id === editingCert ? { ...c, ...formData, status } : c));
         } else {
-            setCerts(prev => [...prev, { id: Date.now().toString(), ...formData, status }]);
+            setCerts(prev => [...prev, { id: Date.now().toString(), ...formData, status, verifyStatus: 'pending' }]);
         }
         setIsModalOpen(false);
     };
@@ -70,6 +70,12 @@ export default function Certifications() {
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this certification?")) {
             setCerts(prev => prev.filter(c => c.id !== id));
+        }
+    };
+
+    const handleReverify = (id) => {
+        if (window.confirm("Do you want to submit this certification for re-verification?")) {
+            setCerts(prev => prev.map(c => c.id === id ? { ...c, verifyStatus: 'pending' } : c));
         }
     };
 
@@ -95,6 +101,7 @@ export default function Certifications() {
                                 <th className="px-6 py-4 text-white/40">Issue Date</th>
                                 <th className="px-6 py-4 text-white/40">Expiry Date</th>
                                 <th className="px-6 py-4 text-white/40">Status</th>
+                                <th className="px-6 py-4 text-white/40">Verification</th>
                                 <th className="px-6 py-4 text-white/40 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -125,8 +132,18 @@ export default function Certifications() {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">{getStatusBadge(cert.status)}</td>
+                                        <td className="px-6 py-4">
+                                            {cert.verifyStatus === 'verified' && <span className="text-green-500 text-xs font-mono-accent uppercase tracking-wider flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Verified</span>}
+                                            {cert.verifyStatus === 'rejected' && <span className="text-red-500 text-xs font-mono-accent uppercase tracking-wider flex items-center gap-1"><X className="w-3 h-3" /> Rejected</span>}
+                                            {(!cert.verifyStatus || cert.verifyStatus === 'pending') && <span className="text-yellow-500 text-xs font-mono-accent uppercase tracking-wider flex items-center gap-1"><Clock className="w-3 h-3" /> Pending</span>}
+                                        </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                {(cert.verifyStatus === 'rejected' || cert.verifyStatus === 'verified') && (
+                                                    <button onClick={() => handleReverify(cert.id)} className="p-2 inline-flex items-center justify-center rounded-lg hover:bg-yellow-500/10 text-white/40 hover:text-yellow-400 transition-colors" title="Request Re-verification">
+                                                        <RefreshCw className="w-4 h-4" />
+                                                    </button>
+                                                )}
                                                 <button onClick={() => openModal(cert)} className="p-2 inline-flex items-center justify-center rounded-lg hover:bg-white/10 text-white/40 hover:text-[#00D9FF] transition-colors" title="Edit Certificate">
                                                     <Edit2 className="w-4 h-4" />
                                                 </button>
