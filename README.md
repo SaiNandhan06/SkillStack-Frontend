@@ -1,10 +1,8 @@
-# SkillStack 
+# SkillStack
 
 **A Modern Skill Certification & Career Growth Tracking Platform**
 
-SkillStack is a frontend-first architecture application built to function as an intuitive command center for ambitious professionals. Designed for tracking technology skills, maintaining certification compliance, and visualizing holistic career growth using local progression metrics.
-
-This iteration acts as a highly capable prototype engineered to use browsers' `localStorage` as a seamless, high-performance NoSQL-like temporary database—making it completely functional for frontend review and demonstrations without requiring a backend runtime.
+SkillStack is a full-stack platform that tracks skills, certifications, and career goals while providing an admin workflow for verification and user management. The frontend is a React SPA and the backend is a Spring Boot REST API secured with JWT.
 
 ---
 
@@ -22,79 +20,77 @@ This iteration acts as a highly capable prototype engineered to use browsers' `l
 
 ---
 
-##  Tech Stack & Architecture
+## Tech Stack
 
-- **Framework:** React 18 + Vite (High-speed HMR environment)
-- **Styling:** TailwindCSS + Vanilla CSS (Glassmorphism & Gradients)
-- **Motion & UI:** Framer Motion (Transitions) + Lucide React (Vector iconography)
-- **Global State:** Context API (`useAuth`, `useTheme`)
-- **Data Persistence:** Custom hooks leveraging `window.localStorage`
-- **Data Visualization:** Recharts (SVG-based charting)
-- **Routing:** React Router DOM (v6/v7 standards)
+**Frontend**
+- React 18 + Vite
+- TailwindCSS + custom CSS
+- Framer Motion + Lucide React
+- React Router
+- Axios for API calls
+- Context API (`useAuth`, `useTheme`)
+
+**Backend**
+- Spring Boot 3
+- Spring Security + JWT
+- Spring Data JPA
+- H2 (dev) or PostgreSQL (runtime)
+- Hibernate Validation
 
 ---
 
-##  Architecture Breakdown
+## Project Workflow
 
-SkillStack utilizes distinct hook models bypassing the need for JSON mocks, natively formatting objects back to the browser namespace linked directly to the `user.id`.
+**User flow**
+1. Register or log in from the frontend.
+2. Frontend stores JWT in `localStorage` and attaches it to API requests.
+3. User manages skills, certifications, goals, notifications, and profile settings.
 
-```text
-├── src/
-│   ├── components/
-│   │   ├── dashboard/       # Dynamic Graphing, Structural App Layouts
-│   │   └── landing/         # Marketing, Animated Feature Strips, Pricing
-│   ├── context/
-│   │   ├── AuthContext.jsx  # Global session verification 
-│   │   └── ThemeContext.jsx # Light/Dark mode persistent toggling 
-│   ├── hooks/
-│   │   ├── useLocalStorageData.js # Array manipulations wrapping the mock DB
-│   │   └── useAnalytics.js        # Graph aggregator handling months/point logic
-│   ├── pages/
-│   │   ├── Certifications.jsx
-│   │   ├── Dashboard.jsx
-│   │   ├── Goals.jsx
-│   │   ├── Login.jsx
-│   │   ├── Notifications.jsx
-│   │   ├── Profile.jsx
-│   │   ├── Register.jsx
-│   │   └── Settings.jsx
-│   ├── App.jsx              # Routing Definitions & Guards
-│   └── index.css            # Standard Variables + Scalable Theme Overrides
+**Admin flow**
+1. Log in at `/admin-login`.
+2. Admin endpoints require JWT with `ADMIN` role.
+3. Admin can verify/reject certifications, send reminders, and manage users.
+
+---
+
+## Clone & Run (Step-by-Step)
+
+**Prerequisites**
+- Node.js 18+
+- Java 17+ (JDK)
+- Maven (or use the Maven wrapper if added later)
+
+**1) Clone the repo**
+```bash
+git clone https://github.com/SaiNandhan06/SkillStack.git
+cd SkillStack
 ```
 
----
-
-##  Installation & Local Execution
-
-**Prerequisites:** 
-- Node.js (`v18.0.0+` recommended)
-
+**2) Start the backend**
 ```bash
-# Clone the repository and move to directory
-git clone https://github.com/SaiNandhan06/SkillStack.git
-cd skillstack
+cd skillstack-backend/skillstack-backend
+mvn spring-boot:run
+```
+Backend runs at `http://localhost:8080`.
 
-# Install foundational dependencies
+**3) Start the frontend**
+```bash
+cd ../../frontend
 npm install
-
-# Optional: Ensure additional libraries are updated (e.g., recharts)
-npm install recharts framer-motion lucide-react react-router-dom formik yup
-
-# Start the Vite development runtime
 npm run dev
 ```
+Frontend runs at `http://localhost:5173`.
 
-Navigate to `http://localhost:5173` to experience the deployed environment.
+**Admin login (dev seed)**
+- Email: `admin@skillstack.com`
+- Password: `Admin123!`
 
 ---
 
-##  Future Integration Pipeline
+## Notes
 
-SkillStack is built modularly. To upgrade the platform from a LocalStorage prototype into a full-scale web application, the data access layer can be trivially refactored:
-
-1. **Backend Endpoints:** Swap out operations inside `useLocalStorageData.js` with `fetch` or `Axios` queries wired up to a Node.js/Express framework.
-2. **Database Translation:** Map the currently simulated `skillstack_skills_{userId}` array structures precisely to a MongoDB representation or PostgreSQL schema.
-3. **Authentication Overhaul:** Discard the simulated local auth validations for native encrypted OAuth 2.0 or JWT session configurations via `AuthContext.jsx`.
+- API base URL is configured in [frontend/src/api.js](frontend/src/api.js) via `VITE_API_BASE_URL` (defaults to `http://localhost:8080/api/v1`).
+- CORS is configured in the backend for `http://localhost:5173` and `http://localhost:3000`.
 
 ---
 

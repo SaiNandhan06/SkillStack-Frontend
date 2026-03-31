@@ -12,86 +12,53 @@ import {
     Mail,
     X
 } from 'lucide-react';
+import api from '../api';
 
 export default function AdminCertifications() {
     const [certifications, setCertifications] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterStatus, setFilterStatus] = useState('pending'); // default to pending instead of all
     const [selectedCert, setSelectedCert] = useState(null); // to handle edit modal
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Collect all certifications from all existing users in localStorage
-        const users = JSON.parse(localStorage.getItem('skillstack_users') || '[]');
-        let allCerts = [];
+        const fetchCertifications = async () => {
+            try {
+                setLoading(true);
+                const response = await api.get('/admin/certifications');
+                setCertifications(response.data || []);
+            } catch (error) {
+                console.error('Failed to load certifications', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        users.forEach(user => {
-            const userCerts = JSON.parse(localStorage.getItem(`skillstack_certifications_${user.id}`)) || [];
-            const formattedLocalCerts = userCerts.map((c) => {
-                const today = new Date();
-                const expDate = c.expiryDate ? new Date(c.expiryDate) : null;
-                const status = expDate && expDate < today ? 'expired' : 'active';
-                
-                return {
-                    ...c,
-                    userId: user.id, // Ensure we store tracking ID for updating
-                    userName: user.name,
-                    status: status,
-                    verifyStatus: c.verifyStatus || 'pending'
-                };
-            });
-            allCerts = [...allCerts, ...formattedLocalCerts];
-        });
-
-        setCertifications(allCerts);
+        fetchCertifications();
     }, []);
 
-    const updateCertStatus = (id, newStatus) => {
-        // Find the cert to know which user it belongs to
-        const certToUpdate = certifications.find(c => c.id === id);
-        if (!certToUpdate) return;
-
-        setCertifications(certifications.map(cert => 
-            cert.id === id ? { ...cert, verifyStatus: newStatus } : cert
-        ));
-
-        // Update local storage so user sees the change
-        const storageKey = `skillstack_certifications_${certToUpdate.userId}`;
-        const localCerts = JSON.parse(localStorage.getItem(storageKey)) || [];
-        const certIndex = localCerts.findIndex(c => String(c.id) === String(id));
-        if (certIndex !== -1) {
-            localCerts[certIndex].verifyStatus = newStatus;
-            localStorage.setItem(storageKey, JSON.stringify(localCerts));
+    const updateCertStatus = async (id, newStatus) => {
+        try {
+            const response = await api.put(`/admin/certifications/${id}/verify`, { status: newStatus });
+            const updated = response.data;
+            setCertifications(prev => prev.map(cert => cert.id === id ? updated : cert));
+        } catch (error) {
+            console.error('Failed to update certification status', error);
         }
     };
 
     const handleVerify = (id) => updateCertStatus(id, 'verified');
     const handleReject = (id) => updateCertStatus(id, 'rejected');
 
-    const handleSendRenewal = (id) => {
-        const cert = certifications.find(c => String(c.id) === String(id));
-        if (cert) {
-            const notifKey = `skillstack_notifications_${cert.userId}`;
-            const notifications = JSON.parse(localStorage.getItem(notifKey)) || [];
-            
-            // Check if reminder already sent today to avoid spamming
-            const today = new Date().toDateString();
-            const alreadySent = notifications.some(n => n.type === 'admin_reminder' && n.certId === id && new Date(n.date).toDateString() === today);
-            
-            if (!alreadySent) {
-                notifications.unshift({
-                    id: Date.now().toString(),
-                    type: 'admin_reminder',
-                    certId: id,
-                    title: 'Certification Renewal Required',
-                    message: `Admin has requested that you renew your ${cert.name} certification.`,
-                    date: new Date().toISOString(),
-                    read: false
-                });
-                localStorage.setItem(notifKey, JSON.stringify(notifications));
+    const handleSendRenewal = async (id) => {
+        try {
+            await api.post(`/admin/certifications/${id}/remind`);
+            const cert = certifications.find(c => String(c.id) === String(id));
+            if (cert) {
                 alert(`Renewal reminder successfully sent to ${cert.userName}.`);
-            } else {
-                alert(`Reminder already sent to ${cert.userName} today.`);
             }
+        } catch (error) {
+            console.error('Failed to send renewal reminder', error);
         }
     };
 
@@ -222,7 +189,13 @@ export default function AdminCertifications() {
                         </thead>
                         <tbody>
                             <AnimatePresence>
-                                {filteredCerts.length === 0 ? (
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan="4" className="p-8 text-center text-white/40 font-body">
+                                            Loading certifications...
+                                        </td>
+                                    </tr>
+                                ) : filteredCerts.length === 0 ? (
                                     <tr>
                                         <td colSpan="4" className="p-8 text-center text-white/40 font-body">
                                             No certifications found matching your criteria.

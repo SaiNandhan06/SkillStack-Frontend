@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Search, Edit2, Trash2, Award, X } from 'lucide-react';
 import { useSkills } from '../hooks/useApiData';
+import api from '../api';
 
 const proficiencyColors = {
     Beginner: 'text-blue-400 bg-blue-400/10 border-blue-400/20',
@@ -32,24 +33,34 @@ export default function Skills() {
         setIsModalOpen(true);
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-        if (editingSkill) {
-            setSkills(prev => prev.map(s => s.id === editingSkill ? { ...s, ...formData } : s));
-        } else {
-            const newSkill = {
-                id: Date.now().toString(),
-                ...formData,
-                lastUsed: new Date().toISOString().split('T')[0]
-            };
-            setSkills(prev => [...prev, newSkill]);
+        try {
+            if (editingSkill) {
+                const res = await api.put(`/skills/${editingSkill}`, formData);
+                const updated = { ...res.data, lastUsed: res.data.lastUsed || (res.data.createdAt ? new Date(res.data.createdAt).toLocaleDateString() : 'N/A') };
+                setSkills(prev => prev.map(s => s.id === editingSkill ? { ...s, ...updated } : s));
+            } else {
+                const res = await api.post('/skills', formData);
+                const created = { ...res.data, lastUsed: res.data.lastUsed || (res.data.createdAt ? new Date(res.data.createdAt).toLocaleDateString() : 'N/A') };
+                setSkills(prev => [...prev, created]);
+            }
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error("Failed to save skill", error);
+            alert("Failed to save skill. Check console for details.");
         }
-        setIsModalOpen(false);
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this skill?")) {
-            setSkills(prev => prev.filter(s => s.id !== id));
+            try {
+                await api.delete(`/skills/${id}`);
+                setSkills(prev => prev.filter(s => s.id !== id));
+            } catch (error) {
+                console.error("Failed to delete skill", error);
+                alert("Failed to delete skill. Check console for details.");
+            }
         }
     };
 

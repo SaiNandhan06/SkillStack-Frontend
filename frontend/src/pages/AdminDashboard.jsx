@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Award, ShieldAlert, Activity, ArrowRight, UserCheck, SearchCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '../api';
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState({
@@ -12,24 +13,28 @@ export default function AdminDashboard() {
     });
 
     useEffect(() => {
-        // Calculate dynamic stats
-        const users = JSON.parse(localStorage.getItem('skillstack_users') || '[]');
-        
-        let totalCerts = 0;
-        let pendingCerts = 0;
+        const fetchStats = async () => {
+            try {
+                const [usersRes, certsRes] = await Promise.all([
+                    api.get('/admin/users'),
+                    api.get('/admin/certifications')
+                ]);
 
-        users.forEach(u => {
-            const userCerts = JSON.parse(localStorage.getItem(`skillstack_certifications_${u.id}`) || '[]');
-            totalCerts += userCerts.length;
-            pendingCerts += userCerts.filter(c => !c.verifyStatus || c.verifyStatus === 'pending').length;
-        });
+                const users = usersRes.data || [];
+                const certs = certsRes.data || [];
 
-        setStats({
-            totalUsers: users.length,
-            activeAdmins: users.filter(u => u.isAdmin).length || 1, // at least 1 for the hardcoded admin
-            totalCertifications: totalCerts,
-            pendingVerifications: pendingCerts
-        });
+                setStats({
+                    totalUsers: users.length,
+                    activeAdmins: users.filter(u => u.role === 'ADMIN' || u.isAdmin).length,
+                    totalCertifications: certs.length,
+                    pendingVerifications: certs.filter(c => c.verifyStatus === 'pending').length
+                });
+            } catch (error) {
+                console.error('Failed to load admin stats', error);
+            }
+        };
+
+        fetchStats();
     }, []);
 
     const cards = [

@@ -13,57 +13,45 @@ import {
     X,
     History
 } from 'lucide-react';
+import api from '../api';
 
 export default function AdminVerificationHistory() {
     const [certifications, setCertifications] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterStatus, setFilterStatus] = useState('all_history'); // all_history, verified, rejected
     const [selectedCert, setSelectedCert] = useState(null); // to handle edit modal
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Collect all certifications from all existing users in localStorage
-        const users = JSON.parse(localStorage.getItem('skillstack_users') || '[]');
-        let allCerts = [];
+        const fetchCertifications = async () => {
+            try {
+                setLoading(true);
+                const response = await api.get('/admin/certifications');
+                const allCerts = response.data || [];
+                const historyCerts = allCerts.filter(c => c.verifyStatus === 'verified' || c.verifyStatus === 'rejected');
+                setCertifications(historyCerts);
+            } catch (error) {
+                console.error('Failed to load verification history', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        users.forEach(user => {
-            const userCerts = JSON.parse(localStorage.getItem(`skillstack_certifications_${user.id}`)) || [];
-            const formattedLocalCerts = userCerts.map((c) => {
-                const today = new Date();
-                const expDate = c.expiryDate ? new Date(c.expiryDate) : null;
-                const status = expDate && expDate < today ? 'expired' : 'active';
-                
-                return {
-                    ...c,
-                    userId: user.id, // Ensure we store tracking ID for updating
-                    userName: user.name,
-                    status: status,
-                    verifyStatus: c.verifyStatus || 'pending'
-                };
-            });
-            // ONLY keep verified or rejected
-            const historyCerts = formattedLocalCerts.filter(c => c.verifyStatus === 'verified' || c.verifyStatus === 'rejected');
-            allCerts = [...allCerts, ...historyCerts];
-        });
-
-        setCertifications(allCerts);
+        fetchCertifications();
     }, []);
 
-    const updateCertStatus = (id, newStatus) => {
-        // Find the cert to know which user it belongs to
-        const certToUpdate = certifications.find(c => c.id === id);
-        if (!certToUpdate) return;
-
-        setCertifications(certifications.map(cert => 
-            cert.id === id ? { ...cert, verifyStatus: newStatus } : cert
-        ));
-
-        // Update local storage so user sees the change
-        const storageKey = `skillstack_certifications_${certToUpdate.userId}`;
-        const localCerts = JSON.parse(localStorage.getItem(storageKey)) || [];
-        const certIndex = localCerts.findIndex(c => String(c.id) === String(id));
-        if (certIndex !== -1) {
-            localCerts[certIndex].verifyStatus = newStatus;
-            localStorage.setItem(storageKey, JSON.stringify(localCerts));
+    const updateCertStatus = async (id, newStatus) => {
+        try {
+            const response = await api.put(`/admin/certifications/${id}/verify`, { status: newStatus });
+            const updated = response.data;
+            setCertifications(prev => {
+                if (updated.verifyStatus === 'pending') {
+                    return prev.filter(cert => cert.id !== id);
+                }
+                return prev.map(cert => cert.id === id ? updated : cert);
+            });
+        } catch (error) {
+            console.error('Failed to update certification status', error);
         }
     };
 
@@ -137,7 +125,13 @@ export default function AdminVerificationHistory() {
                         </thead>
                         <tbody>
                             <AnimatePresence>
-                                {filteredCerts.length === 0 ? (
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan="4" className="p-8 text-center text-white/40 font-body">
+                                            Loading verification history...
+                                        </td>
+                                    </tr>
+                                ) : filteredCerts.length === 0 ? (
                                     <tr>
                                         <td colSpan="4" className="p-8 text-center text-white/40 font-body">
                                             No verification history found.

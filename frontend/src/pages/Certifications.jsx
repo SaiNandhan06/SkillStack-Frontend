@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, Download, Search, AlertCircle, CheckCircle, Clock, Trash2, Edit2, X, RefreshCw } from 'lucide-react';
 import { useCertifications } from '../hooks/useApiData';
+import api from '../api';
 
 const calculateStatus = (expiryDateStr) => {
     const today = new Date();
@@ -55,27 +56,50 @@ export default function Certifications() {
         setIsModalOpen(true);
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
         const { status } = calculateStatus(formData.expiryDate);
 
-        if (editingCert) {
-            setCerts(prev => prev.map(c => c.id === editingCert ? { ...c, ...formData, status } : c));
-        } else {
-            setCerts(prev => [...prev, { id: Date.now().toString(), ...formData, status, verifyStatus: 'pending' }]);
+        try {
+            if (editingCert) {
+                const res = await api.put(`/certifications/${editingCert}`, formData);
+                setCerts(prev => prev.map(c => c.id === editingCert ? { ...c, ...res.data, status } : c));
+            } else {
+                const res = await api.post('/certifications', formData);
+                setCerts(prev => [...prev, { ...res.data, status, verifyStatus: 'pending' }]);
+            }
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error("Failed to save certification", error);
+            alert("Failed to save certification. Please check console.");
         }
-        setIsModalOpen(false);
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this certification?")) {
-            setCerts(prev => prev.filter(c => c.id !== id));
+            try {
+                await api.delete(`/certifications/${id}`);
+                setCerts(prev => prev.filter(c => c.id !== id));
+            } catch (error) {
+                console.error("Failed to delete certification", error);
+            }
         }
     };
 
-    const handleReverify = (id) => {
+    const handleReverify = async (id) => {
         if (window.confirm("Do you want to submit this certification for re-verification?")) {
-            setCerts(prev => prev.map(c => c.id === id ? { ...c, verifyStatus: 'pending' } : c));
+            try {
+                // To reverify, we likely just "update" it so backend resets its status
+                const cert = certs.find(c => c.id === id);
+                if (cert) {
+                    const res = await api.put(`/certifications/${id}`, { 
+                        name: cert.name, issuer: cert.issuer, issueDate: cert.issueDate, expiryDate: cert.expiryDate 
+                    });
+                    setCerts(prev => prev.map(c => c.id === id ? { ...c, ...res.data, verifyStatus: 'pending' } : c));
+                }
+            } catch (error) {
+                console.error("Failed to resubmit certification", error);
+            }
         }
     };
 

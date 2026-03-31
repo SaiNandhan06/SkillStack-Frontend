@@ -2,8 +2,18 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Target, GripVertical, CheckCircle2, Circle, Plus, X, Trash2 } from 'lucide-react';
 import { useGoals } from '../hooks/useApiData';
+import api from '../api';
 
 const statuses = ['Not Started', 'In Progress', 'Completed'];
+
+const toTitleCaseStatus = (status) => {
+    if (!status) return status;
+    return status
+        .toLowerCase()
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+};
 
 export default function Goals() {
     const [goals, setGoals, loading] = useGoals();
@@ -16,15 +26,25 @@ export default function Goals() {
         setIsModalOpen(true);
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-        setGoals(prev => [...prev, { id: Date.now().toString(), ...formData }]);
-        setIsModalOpen(false);
+        try {
+            const res = await api.post('/goals', formData);
+            setGoals(prev => [...prev, { ...res.data, status: toTitleCaseStatus(res.data.status) }]);
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error("Failed to save goal", error);
+        }
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm('Delete this goal?')) {
-            setGoals(prev => prev.filter(g => g.id !== id));
+            try {
+                await api.delete(`/goals/${id}`);
+                setGoals(prev => prev.filter(g => g.id !== id));
+            } catch (error) {
+                console.error("Failed to delete goal", error);
+            }
         }
     }
 
@@ -38,10 +58,19 @@ export default function Goals() {
         e.dataTransfer.dropEffect = 'move';
     };
 
-    const onDrop = (e, newStatus) => {
+    const onDrop = async (e, newStatus) => {
         e.preventDefault();
         if (draggingId) {
-            setGoals(prev => prev.map(g => g.id === draggingId ? { ...g, status: newStatus } : g));
+            try {
+                // Determine the goal first
+                const goal = goals.find(g => g.id === draggingId);
+                if (goal && goal.status !== newStatus) {
+                    const res = await api.put(`/goals/${draggingId}`, { ...goal, status: newStatus });
+                    setGoals(prev => prev.map(g => g.id === draggingId ? { ...res.data, status: toTitleCaseStatus(res.data.status) } : g));
+                }
+            } catch (error) {
+                console.error("Failed to update goal status", error);
+            }
             setDraggingId(null);
         }
     };

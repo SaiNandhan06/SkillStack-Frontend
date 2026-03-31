@@ -1,16 +1,30 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, Check, Clock, AlertTriangle } from 'lucide-react';
 import { useNotifications } from '../hooks/useApiData';
+import api from '../api';
 
 export default function Notifications() {
     const [notifications, setNotifications] = useNotifications();
 
-    const markAsRead = (id) => {
-        setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
+    const markAsRead = async (id) => {
+        try {
+            await api.put(`/notifications/${id}/read`);
+            setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
+        } catch (error) {
+            console.error('Failed to mark notification as read', error);
+        }
     };
 
-    const markAllRead = () => {
-        setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    const markAllRead = async () => {
+        const unread = notifications.filter(n => !n.read);
+        if (unread.length === 0) return;
+
+        try {
+            await Promise.all(unread.map(n => api.put(`/notifications/${n.id}/read`)));
+            setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+        } catch (error) {
+            console.error('Failed to mark all notifications as read', error);
+        }
     };
 
     const getIcon = (type) => {

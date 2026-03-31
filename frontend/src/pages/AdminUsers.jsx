@@ -1,26 +1,47 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, UserX, Shield, ShieldAlert, Trash2, Search } from 'lucide-react';
+import api from '../api';
 
 export default function AdminUsers() {
-    const [users, setUsers] = useState(() => {
-        return JSON.parse(localStorage.getItem('skillstack_users') || '[]');
-    });
+    const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [loading, setLoading] = useState(true);
 
-    const toggleAdmin = (userId) => {
-        const updatedUsers = users.map(user => 
-            user.id === userId ? { ...user, isAdmin: !user.isAdmin } : user
-        );
-        setUsers(updatedUsers);
-        localStorage.setItem('skillstack_users', JSON.stringify(updatedUsers));
+    const fetchUsers = async () => {
+        try {
+            setLoading(true);
+            const response = await api.get('/admin/users');
+            setUsers(response.data || []);
+        } catch (error) {
+            console.error('Failed to load users', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const deleteUser = (userId) => {
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const toggleAdmin = async (userId) => {
+        try {
+            const response = await api.put(`/admin/users/${userId}/role`);
+            const updatedUser = response.data;
+            setUsers(prev => prev.map(user => user.id === userId ? updatedUser : user));
+        } catch (error) {
+            console.error('Failed to toggle admin role', error);
+        }
+    };
+
+    const deleteUser = async (userId) => {
         if (window.confirm("Are you sure you want to permanently delete this user?")) {
-            const updatedUsers = users.filter(user => user.id !== userId);
-            setUsers(updatedUsers);
-            localStorage.setItem('skillstack_users', JSON.stringify(updatedUsers));
+            try {
+                await api.delete(`/admin/users/${userId}`);
+                setUsers(prev => prev.filter(user => user.id !== userId));
+            } catch (error) {
+                console.error('Failed to delete user', error);
+            }
         }
     };
 
@@ -71,7 +92,13 @@ export default function AdminUsers() {
                         </thead>
                         <tbody>
                             <AnimatePresence>
-                                {filteredUsers.length === 0 ? (
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan="4" className="p-8 text-center text-white/40 font-body">
+                                            Loading users...
+                                        </td>
+                                    </tr>
+                                ) : filteredUsers.length === 0 ? (
                                     <tr>
                                         <td colSpan="4" className="p-8 text-center text-white/40 font-body">
                                             No users found matching your search.
@@ -98,7 +125,7 @@ export default function AdminUsers() {
                                                 </div>
                                             </td>
                                             <td className="p-4">
-                                                {u.isAdmin ? (
+                                                {u.role === 'ADMIN' || u.isAdmin ? (
                                                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-mono-accent uppercase tracking-widest font-medium w-fit">
                                                         <ShieldAlert className="w-3 h-3" /> Admin
                                                     </span>
@@ -117,9 +144,9 @@ export default function AdminUsers() {
                                                         <>
                                                             <button 
                                                                 onClick={() => toggleAdmin(u.id)}
-                                                                className={`px-3 py-1.5 rounded-lg border transition-colors text-xs font-medium flex items-center gap-1.5 ${u.isAdmin ? 'bg-white/5 hover:bg-white/10 text-white/60 border-white/10' : 'bg-red-500/10 text-red-400 hover:bg-red-500/20 border-red-500/20'}`}
+                                                                className={`px-3 py-1.5 rounded-lg border transition-colors text-xs font-medium flex items-center gap-1.5 ${u.role === 'ADMIN' || u.isAdmin ? 'bg-white/5 hover:bg-white/10 text-white/60 border-white/10' : 'bg-red-500/10 text-red-400 hover:bg-red-500/20 border-red-500/20'}`}
                                                             >
-                                                                <Shield className="w-3 h-3" /> {u.isAdmin ? 'Revoke Admin' : 'Make Admin'}
+                                                                <Shield className="w-3 h-3" /> {u.role === 'ADMIN' || u.isAdmin ? 'Revoke Admin' : 'Make Admin'}
                                                             </button>
                                                             <button 
                                                                 onClick={() => deleteUser(u.id)}
