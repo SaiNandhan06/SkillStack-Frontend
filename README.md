@@ -70,7 +70,7 @@ cd SkillStack
 
 **2) Start the backend**
 ```bash
-cd skillstack-backend/skillstack-backend
+cd skillstack-backend
 mvn spring-boot:run
 ```
 Backend runs at `http://localhost:8080`.
