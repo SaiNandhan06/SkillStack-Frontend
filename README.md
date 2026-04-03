@@ -41,13 +41,7 @@ SkillStack is a full-stack platform that tracks skills, certifications, and care
 
 ## Project Workflow
 
-**Build artifacts**
-target/
-*.jar
-*.war
-*.ear
-bin/
-out/
+
 
 **User flow**
 1. Register or log in from the frontend.
@@ -108,6 +102,6 @@ Frontend runs at `http://localhost:5173`.
 - **Frontend Dependencies:** Use `npm install` before running `npm run dev` to ensure all modern React and Tailwind components are correctly linked.
 - **Node Version:** Ensure Node.js 18+ is used for compatibility with the Vite 7 development server.
 
----
+
 
 **Developed & Designed carefully with modern web standards.**
