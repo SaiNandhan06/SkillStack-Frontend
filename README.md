@@ -41,6 +41,14 @@ SkillStack is a full-stack platform that tracks skills, certifications, and care
 
 ## Project Workflow
 
+**Build artifacts**
+target/
+*.jar
+*.war
+*.ear
+bin/
+out/
+
 **User flow**
 1. Register or log in from the frontend.
 2. Frontend stores JWT in `localStorage` and attaches it to API requests.
@@ -91,6 +99,14 @@ Frontend runs at `http://localhost:5173`.
 
 - API base URL is configured in [frontend/src/api.js](frontend/src/api.js) via `VITE_API_BASE_URL` (defaults to `http://localhost:8080/api/v1`).
 - CORS is configured in the backend for `http://localhost:5173` and `http://localhost:3000`.
+
+---
+
+## Troubleshooting
+
+- **Port Conflict (8080):** If the backend fails with "Address already in use", identify and stop the process using `netstat -ano | findstr :8080` (Windows) or `lsof -i :8080` (Linux/Mac) and kill the PID.
+- **Frontend Dependencies:** Use `npm install` before running `npm run dev` to ensure all modern React and Tailwind components are correctly linked.
+- **Node Version:** Ensure Node.js 18+ is used for compatibility with the Vite 7 development server.
 
 ---
 

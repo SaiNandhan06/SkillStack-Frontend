@@ -33,3 +33,12 @@ core
 .github/
 
 **/tempobook/**
+
+# Build artifacts
+target/
+*.jar
+*.war
+*.ear
+bin/
+out/
+
