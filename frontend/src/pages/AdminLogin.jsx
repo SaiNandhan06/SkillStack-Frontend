@@ -36,25 +36,20 @@ export default function AdminLogin() {
 
     return (
         <div className="min-h-screen bg-[#0A0A0F] font-body flex items-center justify-center p-4 overflow-hidden relative">
-            {/* Dynamic Background Elements */}
-            <div className="absolute inset-0 grid-bg opacity-20" />
-            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#00D9FF]/10 blur-[120px] animate-pulse-slow" />
-            <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#A855F7]/10 blur-[120px] animate-pulse-slow" />
+            {/* Soft Ambient Glows (Lowered intensity for better contrast) */}
+            <div className="absolute inset-0 grid-bg opacity-10" />
+            <div className="absolute top-[0%] left-[0%] w-[400px] h-[400px] rounded-full bg-[#00D9FF]/5 blur-[100px] animate-pulse-slow pointer-events-none" />
+            <div className="absolute bottom-[0%] right-[0%] w-[400px] h-[400px] rounded-full bg-[#A855F7]/5 blur-[100px] animate-pulse-slow pointer-events-none" />
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                initial={{ opacity: 0, scale: 0.95, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className="relative w-full max-w-md z-10"
             >
-                {/* Premium Gradient Border Outer */}
-                <div className="absolute -inset-px rounded-3xl opacity-50" style={{
-                    background: "linear-gradient(135deg, #00D9FF, #A855F7)",
-                }} />
-
-                <div className="relative bg-[#0F0F17]/90 backdrop-blur-xl rounded-3xl p-10 shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/5 overflow-hidden">
-                    {/* Interior Decorative Element */}
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/5 to-transparent rounded-full -translate-y-12 translate-x-12" />
+                <div className="relative bg-[#0F0F17]/95 backdrop-blur-2xl rounded-[32px] p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] gradient-border overflow-hidden">
+                    {/* Interior Decorative Mesh */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#A855F7]/10 to-transparent rounded-full -translate-y-16 translate-x-16 pointer-events-none" />
                     
                     {/* Logo Section */}
                     <div className="flex flex-col items-center mb-10">
