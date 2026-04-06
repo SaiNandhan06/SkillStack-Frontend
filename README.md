@@ -31,77 +31,143 @@ SkillStack is a full-stack platform that tracks skills, certifications, and care
 - Context API (`useAuth`, `useTheme`)
 
 **Backend**
-- Spring Boot 3
-- Spring Security + JWT
-- Spring Data JPA
-- H2 (dev) or PostgreSQL (runtime)
-- Hibernate Validation
+- Java 17 + Spring Boot 3.2.5
+- Spring Security + JWT (JJWT)
+- Spring Data JPA + Hibernate
+- MySQL 8.x (Primary Database)
+- Lombok
 
 ---
 
-## Project Workflow
+## Prerequisites & Installation
 
+Before running the project, ensure you have the following installed based on your Operating System:
 
+### 🪟 Windows
+1. **Java 17 JDK**: Download from [Oracle](https://www.oracle.com/java/technologies/downloads/) or install via terminal:
+   ```powershell
+   winget install Microsoft.OpenJDK.17
+   ```
+2. **Maven**: Download from [Apache Maven](https://maven.apache.org/download.cgi) or install via terminal:
+   ```powershell
+   winget install Apache.Maven
+   ```
+3. **Node.js (v18+)**: Download from [nodejs.org](https://nodejs.org/) or install via terminal:
+   ```powershell
+   winget install OpenJS.NodeJS.LTS
+   ```
+4. **MySQL Server**: Download and install [MySQL Community Server](https://dev.mysql.com/downloads/installer/).
 
-**User flow**
-1. Register or log in from the frontend.
-2. Frontend stores JWT in `localStorage` and attaches it to API requests.
-3. User manages skills, certifications, goals, notifications, and profile settings.
+### 🐧 Linux (Ubuntu/Debian)
+1. **Java 17 JDK**:
+   ```bash
+   sudo apt update
+   sudo apt install openjdk-17-jdk -y
+   ```
+2. **Maven**:
+   ```bash
+   sudo apt install maven -y
+   ```
+3. **Node.js (v18+)**:
+   ```bash
+   curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+   sudo apt-get install -y nodejs
+   ```
+4. **MySQL Server**:
+   ```bash
+   sudo apt install mysql-server -y
+   sudo systemctl start mysql
+   ```
 
-**Admin flow**
-1. Log in at `/admin-login`.
-2. Admin endpoints require JWT with `ADMIN` role.
-3. Admin can verify/reject certifications, send reminders, and manage users.
+### 🍎 macOS
+1. **Homebrew** (if not installed): `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+2. **Java 17 JDK**: 
+   ```bash
+   brew install openjdk@17
+   ```
+3. **Maven**:
+   ```bash
+   brew install maven
+   ```
+4. **Node.js**:
+   ```bash
+   brew install node
+   ```
+5. **MySQL Server**:
+   ```bash
+   brew install mysql
+   brew services start mysql
+   ```
 
 ---
 
-## Clone & Run (Step-by-Step)
+## Step-by-Step Running Procedure
 
-**Prerequisites**
-- Node.js 18+
-- Java 17+ (JDK)
-- Maven (or use the Maven wrapper if added later)
-
-**1) Clone the repo**
+### 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/SaiNandhan06/SkillStack.git
 cd SkillStack
 ```
 
-**2) Start the backend**
-```bash
-cd skillstack-backend
-mvn spring-boot:run
-```
-Backend runs at `http://localhost:8080`.
+### 2️⃣ Database Setup (MySQL)
+1. Ensure MySQL is running.
+2. Log in to MySQL:
+   ```sql
+   mysql -u root -p
+   ```
+3. Create the database (if not already created by Spring Boot):
+   ```sql
+   CREATE DATABASE skillstack_db;
+   ```
+4. **Important**: Open `skillstack-backend/src/main/resources/application.properties` and verify/update your MySQL credentials:
+   ```properties
+   spring.datasource.username=your_username
+   spring.datasource.password=your_password
+   ```
 
-**3) Start the frontend**
-```bash
-cd ../../frontend
-npm install
-npm run dev
-```
-Frontend runs at `http://localhost:5173`.
+### 3️⃣ Run the Backend (Spring Boot)
+1. Navigate to the backend directory:
+   ```bash
+   cd skillstack-backend
+   ```
+2. Build and run:
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
+3. The server will start at `http://localhost:8080`.
 
-**Admin login (dev seed)**
-- Email: `admin@skillstack.com`
-- Password: `Admin123!`
+### 4️⃣ Run the Frontend (React + Vite)
+1. Open a **new terminal** and navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. The application will be live at `http://localhost:5173`.
 
 ---
 
-## Notes
-
-- API base URL is configured in [frontend/src/api.js](frontend/src/api.js) via `VITE_API_BASE_URL` (defaults to `http://localhost:8080/api/v1`).
-- CORS is configured in the backend for `http://localhost:5173` and `http://localhost:3000`.
+## Admin Credentials (Dev Seed)
+Once the app is running, you can use these credentials for testing:
+- **Email**: `admin@skillstack.com`
+- **Password**: `Admin123!`
 
 ---
 
 ## Troubleshooting
 
-- **Port Conflict (8080):** If the backend fails with "Address already in use", identify and stop the process using `netstat -ano | findstr :8080` (Windows) or `lsof -i :8080` (Linux/Mac) and kill the PID.
-- **Frontend Dependencies:** Use `npm install` before running `npm run dev` to ensure all modern React and Tailwind components are correctly linked.
-- **Node Version:** Ensure Node.js 18+ is used for compatibility with the Vite 7 development server.
+- **Port 8080 already in use**: 
+  - Windows: `netstat -ano | findstr :8080` then `taskkill /F /PID <PID>`
+  - Linux/Mac: `lsof -i :8080` then `kill -9 <PID>`
+- **MySQL Connection Failed**: Ensure the `skillstack_db` exists and your `application.properties` has the correct username and password.
+- **Node Version**: Ensure `node -v` shows version 18 or higher.
 
-
-
-**Developed & Designed carefully with modern web standards.**
+---
+**Developed & Designed with modern web standards.**
