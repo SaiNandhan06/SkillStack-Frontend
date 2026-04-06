@@ -134,7 +134,7 @@ export default function AdminLogin() {
                 </div>
 
                 {/* Footer Decal */}
-                <p className="mt-8 text-center text-white/10 text-[10px] font-mono-accent uppercase tracking-[0.3em] font-medium">
+                <p className="mt-8 text-center text-white/40 text-[10px] font-mono-accent uppercase tracking-[0.3em] font-medium">
                     SkillStack Infrastructure © 2026 • Encrypted v.4.0
                 </p>
             </motion.div>
