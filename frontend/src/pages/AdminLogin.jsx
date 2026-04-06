@@ -35,84 +35,113 @@ export default function AdminLogin() {
     });
 
     return (
-        <div className="min-h-screen bg-[#0A0A0F] font-body flex items-center justify-center p-4">
-            {/* Background elements */}
-            <div className="absolute inset-0 grid-bg opacity-30" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-red-500/5 blur-[100px] pointer-events-none" />
+        <div className="min-h-screen bg-[#0A0A0F] font-body flex items-center justify-center p-4 overflow-hidden relative">
+            {/* Dynamic Background Elements */}
+            <div className="absolute inset-0 grid-bg opacity-20" />
+            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#00D9FF]/10 blur-[120px] animate-pulse-slow" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#A855F7]/10 blur-[120px] animate-pulse-slow" />
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="relative w-full max-w-md"
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="relative w-full max-w-md z-10"
             >
-                <div className="absolute -inset-px rounded-2xl" style={{
-                    background: "linear-gradient(#12121A, #12121A) padding-box, linear-gradient(135deg, rgba(239, 68, 68, 0.4), rgba(220, 38, 38, 0.4)) border-box",
-                    border: "1px solid transparent",
+                {/* Premium Gradient Border Outer */}
+                <div className="absolute -inset-px rounded-3xl opacity-50" style={{
+                    background: "linear-gradient(135deg, #00D9FF, #A855F7)",
                 }} />
 
-                <div className="relative bg-[#0F0F17] rounded-2xl p-8 shadow-2xl">
-                    <div className="flex justify-center mb-6">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500/20 to-red-600/20 flex items-center justify-center border border-red-500/20">
-                            <ShieldCheck className="w-8 h-8 text-red-500" />
+                <div className="relative bg-[#0F0F17]/90 backdrop-blur-xl rounded-3xl p-10 shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/5 overflow-hidden">
+                    {/* Interior Decorative Element */}
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/5 to-transparent rounded-full -translate-y-12 translate-x-12" />
+                    
+                    {/* Logo Section */}
+                    <div className="flex flex-col items-center mb-10">
+                        <Link to="/" className="mb-6 hover:opacity-90 transition-all transform hover:scale-105">
+                            <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-52 h-24 object-contain" />
+                        </Link>
+                        
+                        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#00D9FF]/10 border border-[#00D9FF]/20 mb-4">
+                            <ShieldCheck className="w-3.5 h-3.5 text-[#00D9FF]" />
+                            <span className="font-mono-accent text-[10px] uppercase tracking-[0.2em] text-[#00D9FF] font-semibold">Admin Gateway</span>
                         </div>
-                    </div>
-
-                    <div className="text-center mb-8">
-                        <h2 className="font-display font-bold text-white text-2xl mb-2">Admin Portal</h2>
-                        <p className="font-body text-sm text-white/50">Log in to manage certifications and users</p>
+                        
+                        <h2 className="font-display font-bold text-white text-3xl tracking-tight mb-2">Secure Portal</h2>
+                        <p className="font-body text-sm text-white/40 text-center">Identity verification for administrative access and platform governance.</p>
                     </div>
 
                     {error && (
-                        <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">
+                        <motion.div 
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center font-medium"
+                        >
                             {error}
-                        </div>
+                        </motion.div>
                     )}
 
-                    <form onSubmit={formik.handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block font-mono-accent text-xs text-white/40 uppercase tracking-widest mb-1.5">Admin Email</label>
-                            <input
-                                id="email"
-                                type="email"
-                                {...formik.getFieldProps('email')}
-                                className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${formik.touched.email && formik.errors.email ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-red-500/40`}
-                                placeholder="admin@skillstack.com"
-                            />
+                    <form onSubmit={formik.handleSubmit} className="space-y-5">
+                        <div className="group">
+                            <label className="block font-mono-accent text-[10px] text-white/30 uppercase tracking-[0.2em] mb-2 px-1">Control Email</label>
+                            <div className="relative">
+                                <input
+                                    id="email"
+                                    type="email"
+                                    {...formik.getFieldProps('email')}
+                                    className={`w-full px-5 py-4 rounded-2xl bg-white/[0.03] border ${formik.touched.email && formik.errors.email ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-[#00D9FF]/50 transition-all group-hover:bg-white/[0.05]`}
+                                    placeholder="admin@skillstack.priv"
+                                />
+                            </div>
                             {formik.touched.email && formik.errors.email ? (
-                                <div className="text-red-500 text-xs mt-1">{formik.errors.email}</div>
+                                <div className="text-red-500 text-[10px] mt-2 font-mono-accent px-1 uppercase tracking-wider">{formik.errors.email}</div>
                             ) : null}
                         </div>
 
-                        <div>
-                            <label className="block font-mono-accent text-xs text-white/40 uppercase tracking-widest mb-1.5">Password</label>
-                            <input
-                                id="password"
-                                type="password"
-                                {...formik.getFieldProps('password')}
-                                className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${formik.touched.password && formik.errors.password ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-red-500/40`}
-                                placeholder="••••••••"
-                            />
+                        <div className="group">
+                            <label className="block font-mono-accent text-[10px] text-white/30 uppercase tracking-[0.2em] mb-2 px-1">Access Key</label>
+                            <div className="relative">
+                                <input
+                                    id="password"
+                                    type="password"
+                                    {...formik.getFieldProps('password')}
+                                    className={`w-full px-5 py-4 rounded-2xl bg-white/[0.03] border ${formik.touched.password && formik.errors.password ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-[#00D9FF]/50 transition-all group-hover:bg-white/[0.05]`}
+                                    placeholder="••••••••"
+                                />
+                            </div>
                             {formik.touched.password && formik.errors.password ? (
-                                <div className="text-red-500 text-xs mt-1">{formik.errors.password}</div>
+                                <div className="text-red-500 text-[10px] mt-2 font-mono-accent px-1 uppercase tracking-wider">{formik.errors.password}</div>
                             ) : null}
                         </div>
 
                         <button
                             type="submit"
                             disabled={formik.isSubmitting}
-                            className="group w-full flex items-center justify-center gap-2 py-3.5 mt-6 rounded-xl font-mono-accent text-sm uppercase tracking-widest font-medium text-white transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100"
-                            style={{ background: "linear-gradient(135deg, #EF4444, #991B1B)" }}
+                            className="relative group w-full py-4 mt-6 rounded-2xl overflow-hidden active:scale-[0.98] transition-all disabled:opacity-50"
                         >
-                            {formik.isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Log In As Admin'}
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#00D9FF] to-[#A855F7] group-hover:scale-110 transition-transform duration-500" />
+                            <div className="relative flex items-center justify-center gap-2 font-mono-accent text-xs uppercase tracking-[0.2em] font-bold text-black">
+                                {formik.isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Authorize Session'}
+                                {!formik.isSubmitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                            </div>
                         </button>
                     </form>
 
-                    <p className="mt-6 text-center text-white/40 text-sm">
-                        Not an admin? <Link to="/login" className="text-red-400 hover:underline">User Login</Link>
-                    </p>
+                    <div className="mt-8 flex flex-col items-center gap-4">
+                        <Link 
+                            to="/login" 
+                            className="text-white/30 hover:text-white text-xs font-mono-accent uppercase tracking-widest transition-colors flex items-center gap-2"
+                        >
+                            <span className="w-1 h-1 rounded-full bg-white/20" />
+                            Switch to Personal Dashboard
+                        </Link>
+                    </div>
                 </div>
+
+                {/* Footer Decal */}
+                <p className="mt-8 text-center text-white/10 text-[10px] font-mono-accent uppercase tracking-[0.3em] font-medium">
+                    SkillStack Infrastructure © 2026 • Encrypted v.4.0
+                </p>
             </motion.div>
         </div>
     );
