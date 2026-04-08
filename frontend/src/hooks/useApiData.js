@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api';
 
@@ -35,7 +35,7 @@ function useBackendData(endpoint, mapItem) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         if (!user) {
             setData([]);
             setLoading(false);
@@ -51,11 +51,11 @@ function useBackendData(endpoint, mapItem) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [user, endpoint]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         fetchData();
-    }, [user, endpoint]);
+    }, [fetchData]);
 
     return [data, setData, loading, fetchData];
 }

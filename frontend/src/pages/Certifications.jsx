@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, Download, Search, AlertCircle, CheckCircle, Clock, Trash2, Edit2, X, RefreshCw } from 'lucide-react';
+import { Upload, AlertCircle, CheckCircle, Clock, Trash2, Edit2, X, RefreshCw } from 'lucide-react';
 import { useCertifications } from '../hooks/useApiData';
 import api from '../api';
 
@@ -132,11 +132,11 @@ export default function Certifications() {
                         <tbody className="divide-y divide-white/5">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="6" className="px-6 py-10 text-center text-[#00D9FF] animate-pulse">Loading certifications...</td>
+                                <td colSpan="7" className="px-6 py-10 text-center text-[#00D9FF] animate-pulse">Loading certifications...</td>
                                 </tr>
                             ) : certs.length === 0 ? (
                                 <tr>
-                                    <td colSpan="6" className="px-6 py-10 text-center text-white/40 font-mono-accent text-xs uppercase tracking-widest">No certifications found.</td>
+                                    <td colSpan="7" className="px-6 py-10 text-center text-white/40 font-mono-accent text-xs uppercase tracking-widest">No certifications found.</td>
                                 </tr>
                             ) : (
                                 certs.map((cert, index) => (

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { NavLink, Outlet, Navigate, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { motion } from 'framer-motion';
 import {
     Moon,
     Sun,

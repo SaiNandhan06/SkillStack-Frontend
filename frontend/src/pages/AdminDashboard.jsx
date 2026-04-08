@@ -40,7 +40,7 @@ export default function AdminDashboard() {
     const cards = [
         {
             title: 'Total Users',
-            value: stats.totalUsers || 124, // Mock if 0
+            value: stats.totalUsers,
             icon: Users,
             color: 'text-blue-500',
             bg: 'bg-blue-500/10',

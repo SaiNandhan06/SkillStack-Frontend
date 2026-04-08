@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Settings, Save, Server, Shield, Bell, Database } from 'lucide-react';
+import { Save, Server, Bell } from 'lucide-react';
 
 export default function AdminSettings() {
     const [settings, setSettings] = useState(() => {

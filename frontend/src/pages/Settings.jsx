@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Save, User, MapPin, Briefcase, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -18,7 +18,7 @@ export default function Settings() {
     const [saving, setSaving] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
-    const resetForm = () => {
+    const resetForm = useCallback(() => {
         setFormData({
             name: user?.name || '',
             bio: settings.bio || '',
@@ -26,13 +26,13 @@ export default function Settings() {
             location: settings.location || '',
             publicProfile: settings.publicProfile !== false
         });
-    };
+    }, [user?.name, settings.bio, settings.role, settings.location, settings.publicProfile]);
 
     useEffect(() => {
         if (user && !loadingSettings && !isEditing) {
             resetForm();
         }
-    }, [user, settings, loadingSettings, isEditing]);
+    }, [user, settings, loadingSettings, isEditing, resetForm]);
 
     const handleSave = async () => {
         if (!isEditing) return;
