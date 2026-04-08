@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Outlet, Navigate, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useTheme } from '../../context/ThemeContext';
 import {
-    Moon,
-    Sun,
     LayoutDashboard,
     Users,
     Award,
@@ -24,7 +21,6 @@ const navItems = [
 
 export default function AdminDashboardLayout() {
     const { user, loading, logout } = useAuth();
-    const { theme, toggleTheme } = useTheme();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -88,12 +84,6 @@ export default function AdminDashboardLayout() {
                                 <p className="font-display font-semibold text-white text-sm truncate">{user.name}</p>
                                 <p className="font-body text-xs text-white/40 truncate text-red-400/80">Administrator</p>
                             </div>
-                            <button
-                                onClick={toggleTheme}
-                                className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/50 hover:bg-white/5 hover:text-white transition-colors"
-                            >
-                                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                            </button>
                         </div>
                         <button
                             onClick={handleLogout}

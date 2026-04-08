@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import { ThemeProvider } from "./context/ThemeContext";
 import Home from "./components/home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -73,42 +72,40 @@ function PublicRoute({ children }) {
 
 function AppContent() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#0A0A0F] text-[#00D9FF]">Loading...</div>}>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+    <AuthProvider>
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#0A0A0F] text-[#00D9FF]">Loading...</div>}>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
 
-            {/* Protected Routes Wrapper */}
-            <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/skills" element={<Skills />} />
-              <Route path="/certifications" element={<Certifications />} />
-              <Route path="/goals" element={<Goals />} />
-              <Route path="/notifications" element={<Notifications />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/settings" element={<Settings />} />
-            </Route>
+          {/* Protected Routes Wrapper */}
+          <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/skills" element={<Skills />} />
+            <Route path="/certifications" element={<Certifications />} />
+            <Route path="/goals" element={<Goals />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
 
-            {/* Admin Routes */}
-            <Route path="/admin-login" element={<PublicRoute><AdminLogin /></PublicRoute>} />
-            <Route element={<AdminRoute><AdminDashboardLayout /></AdminRoute>}>
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/certifications" element={<AdminCertifications />} />
-              <Route path="/admin/history" element={<AdminVerificationHistory />} />
-              <Route path="/admin/users" element={<AdminUsers />} />
-              <Route path="/admin/settings" element={<AdminSettings />} />
-            </Route>
+          {/* Admin Routes */}
+          <Route path="/admin-login" element={<PublicRoute><AdminLogin /></PublicRoute>} />
+          <Route element={<AdminRoute><AdminDashboardLayout /></AdminRoute>}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/certifications" element={<AdminCertifications />} />
+            <Route path="/admin/history" element={<AdminVerificationHistory />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
+          </Route>
 
-            {/* Catch-all */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </AuthProvider>
-    </ThemeProvider>
+          {/* Catch-all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </AuthProvider>
   );
 }
 

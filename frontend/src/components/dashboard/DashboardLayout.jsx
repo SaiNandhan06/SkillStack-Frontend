@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Outlet, Navigate, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useTheme } from '../../context/ThemeContext';
 import {
-    Moon,
-    Sun,
-
     LayoutDashboard,
     Award,
     Target,
@@ -30,7 +26,6 @@ const navItems = [
 
 export default function DashboardLayout() {
     const { user, loading, logout } = useAuth();
-    const { theme, toggleTheme } = useTheme();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -90,12 +85,6 @@ export default function DashboardLayout() {
                                 <p className="font-display font-semibold text-white text-sm truncate">{user.name}</p>
                                 <p className="font-body text-xs text-white/40 truncate">{user.email}</p>
                             </div>
-                            <button
-                                onClick={toggleTheme}
-                                className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/50 hover:bg-white/5 hover:text-white transition-colors"
-                            >
-                                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                            </button>
                         </div>
                         <button
                             onClick={handleLogout}
@@ -118,9 +107,6 @@ export default function DashboardLayout() {
                         <img src="/SkillStack_logo.png" alt="SkillStack Logo" className="w-24 h-14 object-contain" />
                     </Link>
                     <div className="flex items-center gap-4">
-                        <button onClick={toggleTheme} className="text-white/50 hover:text-white">
-                            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                        </button>
                         <button onClick={toggleMenu} className="text-white/50 hover:text-white">
                             <Menu className="w-6 h-6" />
                         </button>
