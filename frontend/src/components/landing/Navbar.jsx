@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogOut, LayoutDashboard, Sun, Moon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { useTheme } from "../../context/ThemeContext";
 
 export default function Navbar({ onCTAClick }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -82,12 +80,6 @@ export default function Navbar({ onCTAClick }) {
             </>
           ) : (
             <>
-              <button
-                onClick={toggleTheme}
-                className="w-9 h-9 flex items-center justify-center rounded-lg border border-white/10 text-white/50 hover:bg-white/5 hover:text-white transition-colors mr-2"
-              >
-                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </button>
               <Link
                 to="/admin-login"
                 className="font-mono-accent text-sm text-red-500/70 hover:text-red-500 transition-colors duration-200 uppercase tracking-wider mr-2"
@@ -112,9 +104,6 @@ export default function Navbar({ onCTAClick }) {
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-4">
-          <button onClick={toggleTheme} className="text-white/50 hover:text-white transition-colors">
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
           <button
             className="text-white/70 hover:text-white transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
