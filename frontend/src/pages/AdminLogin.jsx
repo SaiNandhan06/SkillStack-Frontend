@@ -58,7 +58,7 @@ export default function AdminLogin() {
                         </Link>
                         
                         <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#00D9FF]/10 border border-[#00D9FF]/20 mb-4">
-                            <ShieldCheck className="w-3.5 h-3.5 text-[#00D9FF]" />
+                            <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
                             <span className="font-mono-accent text-[10px] uppercase tracking-[0.2em] text-[#00D9FF] font-semibold">Admin Gateway</span>
                         </div>
                         
