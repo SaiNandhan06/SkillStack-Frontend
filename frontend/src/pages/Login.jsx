@@ -71,9 +71,10 @@ export default function Login() {
                             <input
                                 id="email"
                                 type="email"
+                                autoComplete="off"
                                 {...formik.getFieldProps('email')}
                                 className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${formik.touched.email && formik.errors.email ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-[#00D9FF]/40`}
-                                placeholder="you@company.com"
+                                placeholder="Enter your email"
                             />
                             {formik.touched.email && formik.errors.email ? (
                                 <div className="text-red-500 text-xs mt-1">{formik.errors.email}</div>
@@ -85,9 +86,10 @@ export default function Login() {
                             <input
                                 id="password"
                                 type="password"
+                                autoComplete="new-password"
                                 {...formik.getFieldProps('password')}
                                 className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${formik.touched.password && formik.errors.password ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-[#00D9FF]/40`}
-                                placeholder="••••••••"
+                                placeholder="Enter your password"
                             />
                             {formik.touched.password && formik.errors.password ? (
                                 <div className="text-red-500 text-xs mt-1">{formik.errors.password}</div>

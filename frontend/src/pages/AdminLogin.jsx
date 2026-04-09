@@ -83,9 +83,10 @@ export default function AdminLogin() {
                                 <input
                                     id="email"
                                     type="email"
+                                    autoComplete="off"
                                     {...formik.getFieldProps('email')}
                                     className={`w-full px-5 py-4 rounded-2xl bg-white/[0.03] border ${formik.touched.email && formik.errors.email ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-[#00D9FF]/50 transition-all group-hover:bg-white/[0.05]`}
-                                    placeholder="admin@skillstack.priv"
+                                    placeholder="Enter admin email"
                                 />
                             </div>
                             {formik.touched.email && formik.errors.email ? (
@@ -99,9 +100,10 @@ export default function AdminLogin() {
                                 <input
                                     id="password"
                                     type="password"
+                                    autoComplete="new-password"
                                     {...formik.getFieldProps('password')}
                                     className={`w-full px-5 py-4 rounded-2xl bg-white/[0.03] border ${formik.touched.password && formik.errors.password ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-[#00D9FF]/50 transition-all group-hover:bg-white/[0.05]`}
-                                    placeholder="••••••••"
+                                    placeholder="Enter access key"
                                 />
                             </div>
                             {formik.touched.password && formik.errors.password ? (
