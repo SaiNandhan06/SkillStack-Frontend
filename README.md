@@ -31,7 +31,7 @@ SkillStack is a full-stack platform that tracks skills, certifications, and care
 - Context API (`useAuth`, `useTheme`)
 
 **Backend**
-- Java 17 + Spring Boot 3.2.5
+- Java 21 + Spring Boot 3.2.5
 - Spring Security + JWT (JJWT)
 - Spring Data JPA + Hibernate
 - MySQL 8.x (Primary Database)
@@ -44,9 +44,9 @@ SkillStack is a full-stack platform that tracks skills, certifications, and care
 Before running the project, ensure you have the following installed based on your Operating System:
 
 ### 🪟 Windows
-1. **Java 17 JDK**: Download from [Oracle](https://www.oracle.com/java/technologies/downloads/) or install via terminal:
+1. **Java 21 JDK**: Download from [Oracle](https://www.oracle.com/java/technologies/downloads/) or install via terminal:
    ```powershell
-   winget install Microsoft.OpenJDK.17
+   winget install Microsoft.OpenJDK.21
    ```
 2. **Maven**: Download from [Apache Maven](https://maven.apache.org/download.cgi) or install via terminal:
    ```powershell
@@ -59,10 +59,10 @@ Before running the project, ensure you have the following installed based on you
 4. **MySQL Server**: Download and install [MySQL Community Server](https://dev.mysql.com/downloads/installer/).
 
 ### 🐧 Linux (Ubuntu/Debian)
-1. **Java 17 JDK**:
+1. **Java 21 JDK**:
    ```bash
    sudo apt update
-   sudo apt install openjdk-17-jdk -y
+   sudo apt install openjdk-21-jdk -y
    ```
 2. **Maven**:
    ```bash
@@ -81,9 +81,9 @@ Before running the project, ensure you have the following installed based on you
 
 ### 🍎 macOS
 1. **Homebrew** (if not installed): `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
-2. **Java 17 JDK**: 
+2. **Java 21 JDK**: 
    ```bash
-   brew install openjdk@17
+   brew install openjdk@21
    ```
 3. **Maven**:
    ```bash

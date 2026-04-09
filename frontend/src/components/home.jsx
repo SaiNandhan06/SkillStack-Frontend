@@ -6,7 +6,6 @@ import Features from "./landing/Features";
 import Testimonials from "./landing/Testimonials";
 import Pricing from "./landing/Pricing";
 import FAQ from "./landing/FAQ";
-import FinalCTA from "./landing/FinalCTA";
 import Footer from "./landing/Footer";
 
 function Home() {
@@ -25,7 +24,6 @@ function Home() {
       <Testimonials />
       <Pricing />
       <FAQ />
-      <FinalCTA onCTAClick={handleCTAClick} />
       <Footer />
     </div>
   );
