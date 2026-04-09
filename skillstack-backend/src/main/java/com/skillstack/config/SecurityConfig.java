@@ -49,8 +49,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Allow CORS preflight requests
                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-                // Public auth endpoints
+                // Public auth endpoints + health check
                 .requestMatchers(
+                    "/",
                     "/api/v1/auth/**"
                 ).permitAll()
                 // All other endpoints require a valid JWT
