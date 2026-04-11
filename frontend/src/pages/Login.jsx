@@ -1,29 +1,59 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight, Loader2, Eye, EyeOff, AlertCircle, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [error, setError] = useState('');
+    const [toast, setToast] = useState({ show: false, message: '', type: 'error' });
+    const [showPassword, setShowPassword] = useState(false);
+
+    useEffect(() => {
+        if (toast.show) {
+            const timer = setTimeout(() => {
+                setToast(prev => ({ ...prev, show: false }));
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [toast.show]);
 
     const formik = useFormik({
         initialValues: { email: '', password: '' },
         validationSchema: Yup.object({
-            email: Yup.string().email('Invalid email address').required('Required'),
+            email: Yup.string().required('Required'),
             password: Yup.string().required('Required'),
         }),
         onSubmit: async (values, { setSubmitting }) => {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(values.email)) {
+                setToast({ show: true, message: "Please enter a valid email address.", type: 'error' });
+                setSubmitting(false);
+                return;
+            }
+
             try {
-                setError('');
+                setToast({ show: false, message: '', type: 'error' });
                 await login(values.email, values.password);
                 navigate('/dashboard');
             } catch (err) {
-                setError(err.message || 'Invalid login credentials');
+                let errorMsg = 'Invalid login credentials';
+                if (err.response) {
+                    const status = err.response.status;
+                    if (status === 401) {
+                        errorMsg = "Incorrect password. Please try again.";
+                    } else if (status === 404) {
+                        errorMsg = "Email not registered. Please sign up first.";
+                    } else if (status === 400) {
+                        errorMsg = "Invalid input.";
+                    } else {
+                        errorMsg = err.response.data?.message || err.response.data?.error || errorMsg;
+                    }
+                }
+                setToast({ show: true, message: errorMsg, type: 'error' });
             } finally {
                 setSubmitting(false);
             }
@@ -32,6 +62,25 @@ export default function Login() {
 
     return (
         <div className="min-h-screen bg-[#0A0A0F] font-body flex items-center justify-center p-4">
+            <AnimatePresence>
+                {toast.show && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between gap-4 px-4 py-3 rounded-lg shadow-xl border bg-red-500/10 border-red-500/20 text-red-500 backdrop-blur-md min-w-[300px]"
+                    >
+                        <div className="flex items-center gap-3">
+                            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                            <span className="font-body text-sm font-medium">{toast.message}</span>
+                        </div>
+                        <button type="button" onClick={() => setToast(prev => ({ ...prev, show: false }))} className="hover:opacity-70 transition-opacity">
+                            <X className="w-4 h-4" />
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Background elements */}
             <div className="absolute inset-0 grid-bg opacity-30" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#00D9FF]/5 blur-[100px] pointer-events-none" />
@@ -59,12 +108,6 @@ export default function Login() {
                         <p className="font-body text-sm text-white/50">Log in to track your career progress</p>
                     </div>
 
-                    {error && (
-                        <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">
-                            {error}
-                        </div>
-                    )}
-
                     <form onSubmit={formik.handleSubmit} className="space-y-4">
                         <div>
                             <label className="block font-mono-accent text-xs text-white/40 uppercase tracking-widest mb-1.5">Email</label>
@@ -83,14 +126,23 @@ export default function Login() {
 
                         <div>
                             <label className="block font-mono-accent text-xs text-white/40 uppercase tracking-widest mb-1.5">Password</label>
-                            <input
-                                id="password"
-                                type="password"
-                                autoComplete="new-password"
-                                {...formik.getFieldProps('password')}
-                                className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${formik.touched.password && formik.errors.password ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-[#00D9FF]/40`}
-                                placeholder="Enter your password"
-                            />
+                            <div className="relative">
+                                <input
+                                    id="password"
+                                    type={showPassword ? "text" : "password"}
+                                    autoComplete="new-password"
+                                    {...formik.getFieldProps('password')}
+                                    className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${formik.touched.password && formik.errors.password ? 'border-red-500/50' : 'border-white/10'} text-white text-sm focus:outline-none focus:border-[#00D9FF]/40 pr-12`}
+                                    placeholder="Enter your password"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:opacity-80 transition-opacity"
+                                >
+                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                </button>
+                            </div>
                             {formik.touched.password && formik.errors.password ? (
                                 <div className="text-red-500 text-xs mt-1">{formik.errors.password}</div>
                             ) : null}
