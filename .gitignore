@@ -44,3 +44,8 @@ out/
 
 # User uploads
 skillstack-backend/uploads/
+
+# Local Environment Variables
+.env
+application-local.properties
+application-dev.properties
