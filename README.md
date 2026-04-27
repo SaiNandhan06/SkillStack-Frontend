@@ -136,6 +136,7 @@ cd SkillStack
    mvn spring-boot:run
    ```
 3. The server will start at `http://localhost:8080`.
+4. **API Documentation (Swagger)**: You can view and test all available endpoints by visiting the Swagger UI at `http://localhost:8080/swagger-ui/index.html`.
 
 ### 4️⃣ Run the Frontend (React + Vite)
 1. Open a **new terminal** and navigate to the frontend directory:
