@@ -98,15 +98,15 @@ export default function Testimonials() {
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative rounded-2xl overflow-hidden cursor-pointer group"
+            className="relative rounded-2xl cursor-pointer group h-fit flex flex-col"
             onClick={() => setVideoOpen(true)}
           >
-            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-[#00D9FF]/20 to-[#A855F7]/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative border border-white/10 rounded-2xl overflow-hidden">
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-[#00D9FF]/30 to-[#A855F7]/30 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="relative border border-white/10 rounded-2xl overflow-hidden bg-[#0A0A0F] flex-1 flex flex-col">
               <img
                 src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80"
                 alt="Platform demo video"
-                className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
+                className="block w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
               />
 
               {/* Overlay */}

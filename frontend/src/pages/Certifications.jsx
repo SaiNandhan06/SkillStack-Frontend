@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, AlertCircle, CheckCircle, Clock, Trash2, Edit2, X, RefreshCw } from 'lucide-react';
+import { Upload, AlertCircle, CheckCircle, Clock, Trash2, Edit2, X, RefreshCw, FileText, ExternalLink } from 'lucide-react';
 import { useCertifications } from '../hooks/useApiData';
 import api from '../api';
 
@@ -24,6 +24,9 @@ export default function Certifications() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingCert, setEditingCert] = useState(null);
     const [formData, setFormData] = useState({ name: '', issuer: '', issueDate: '', expiryDate: '' });
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const fileInputRef = useRef(null);
 
     // Ensure status is recalculated on load
     useEffect(() => {
@@ -53,6 +56,7 @@ export default function Certifications() {
             setEditingCert(null);
             setFormData({ name: '', issuer: '', issueDate: '', expiryDate: '' });
         }
+        setSelectedFile(null);
         setIsModalOpen(true);
     };
 
@@ -61,13 +65,37 @@ export default function Certifications() {
         const { status } = calculateStatus(formData.expiryDate);
 
         try {
+            let savedCertId;
             if (editingCert) {
                 const res = await api.put(`/certifications/${editingCert}`, formData);
                 setCerts(prev => prev.map(c => c.id === editingCert ? { ...c, ...res.data, status } : c));
+                savedCertId = editingCert;
             } else {
                 const res = await api.post('/certifications', formData);
                 setCerts(prev => [...prev, { ...res.data, status, verifyStatus: 'pending' }]);
+                savedCertId = res.data.id;
             }
+
+            // Upload file if one was selected
+            if (selectedFile && savedCertId) {
+                setUploading(true);
+                try {
+                    const fd = new FormData();
+                    fd.append('file', selectedFile);
+                    const uploadRes = await api.post(`/certifications/${savedCertId}/upload`, fd, {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                    });
+                    setCerts(prev => prev.map(c =>
+                        c.id === savedCertId ? { ...c, ...uploadRes.data } : c
+                    ));
+                } catch (uploadErr) {
+                    console.error('File upload failed', uploadErr);
+                    alert('Certification saved but file upload failed. Try uploading again via Edit.');
+                } finally {
+                    setUploading(false);
+                }
+            }
+
             setIsModalOpen(false);
         } catch (error) {
             console.error("Failed to save certification", error);
@@ -126,17 +154,18 @@ export default function Certifications() {
                                 <th className="px-6 py-4 text-white/40">Expiry Date</th>
                                 <th className="px-6 py-4 text-white/40">Status</th>
                                 <th className="px-6 py-4 text-white/40">Verification</th>
+                                <th className="px-6 py-4 text-white/40">Document</th>
                                 <th className="px-6 py-4 text-white/40 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
                             {loading ? (
                                 <tr>
-                                <td colSpan="7" className="px-6 py-10 text-center text-[#00D9FF] animate-pulse">Loading certifications...</td>
+                                <td colSpan="8" className="px-6 py-10 text-center text-[#00D9FF] animate-pulse">Loading certifications...</td>
                                 </tr>
                             ) : certs.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7" className="px-6 py-10 text-center text-white/40 font-mono-accent text-xs uppercase tracking-widest">No certifications found.</td>
+                                    <td colSpan="8" className="px-6 py-10 text-center text-white/40 font-mono-accent text-xs uppercase tracking-widest">No certifications found.</td>
                                 </tr>
                             ) : (
                                 certs.map((cert, index) => (
@@ -160,6 +189,24 @@ export default function Certifications() {
                                             {cert.verifyStatus === 'verified' && <span className="text-green-500 text-xs font-mono-accent uppercase tracking-wider flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Verified</span>}
                                             {cert.verifyStatus === 'rejected' && <span className="text-red-500 text-xs font-mono-accent uppercase tracking-wider flex items-center gap-1"><X className="w-3 h-3" /> Rejected</span>}
                                             {(!cert.verifyStatus || cert.verifyStatus === 'pending') && <span className="text-yellow-500 text-xs font-mono-accent uppercase tracking-wider flex items-center gap-1"><Clock className="w-3 h-3" /> Pending</span>}
+                                        </td>
+                                        {/* Document column */}
+                                        <td className="px-6 py-4">
+                                            {cert.fileUrl ? (
+                                                <a
+                                                    href={`${import.meta.env.VITE_API_BASE_URL?.replace('/api/v1','') || 'http://localhost:8080'}${cert.fileUrl}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-1 text-[#00D9FF] text-xs font-mono-accent hover:underline"
+                                                    title={cert.fileName}
+                                                >
+                                                    <FileText className="w-3.5 h-3.5" />
+                                                    <span className="max-w-[80px] truncate">{cert.fileName || 'View'}</span>
+                                                    <ExternalLink className="w-3 h-3" />
+                                                </a>
+                                            ) : (
+                                                <span className="text-white/20 text-xs font-mono-accent">—</span>
+                                            )}
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -255,19 +302,42 @@ export default function Certifications() {
                                     </div>
                                 </div>
 
-                                {/* File Upload stub since requested "support file upload (store base64 or mock URLs)" */}
+                                {/* File Upload — real input */}
                                 <div>
-                                    <label className="block font-mono-accent text-xs text-white/40 uppercase tracking-widest mb-1.5">Upload Document (Optional)</label>
-                                    <div className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 border-dashed text-white/40 text-sm flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors">
-                                        <Upload className="w-4 h-4 mr-2" /> Click to select file
+                                    <label className="block font-mono-accent text-xs text-white/40 uppercase tracking-widest mb-1.5">Upload Document (PDF / Image)</label>
+                                    <input
+                                        ref={fileInputRef}
+                                        type="file"
+                                        accept=".pdf,.png,.jpg,.jpeg,.gif,.webp"
+                                        className="hidden"
+                                        onChange={e => setSelectedFile(e.target.files[0] || null)}
+                                    />
+                                    <div
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 border-dashed text-sm flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors gap-2"
+                                    >
+                                        <Upload className="w-4 h-4 text-white" />
+                                        {selectedFile
+                                            ? <span className="text-[#00D9FF] truncate max-w-[200px]">{selectedFile.name}</span>
+                                            : <span className="text-white font-medium">Click to select file</span>
+                                        }
                                     </div>
+                                    {selectedFile && (
+                                        <button type="button" onClick={() => setSelectedFile(null)} className="mt-1 text-xs text-white/30 hover:text-red-400 transition-colors">
+                                            Remove file
+                                        </button>
+                                    )}
                                 </div>
 
                                 <button
                                     type="submit"
-                                    className="w-full py-3 mt-4 rounded-xl font-mono-accent text-xs uppercase tracking-widest font-semibold text-white bg-white/10 border border-white/20 transition-all hover:bg-white/20"
+                                    disabled={uploading}
+                                    className="w-full py-3 mt-4 rounded-xl font-mono-accent text-xs uppercase tracking-widest font-semibold text-white bg-white/10 border border-white/20 transition-all hover:bg-white/20 disabled:opacity-50"
                                 >
-                                    {editingCert ? 'Save Changes' : 'Upload Certification'}
+                                    {uploading
+                                        ? 'Uploading file…'
+                                        : editingCert ? 'Save Changes' : 'Upload Certification'
+                                    }
                                 </button>
                             </form>
                         </motion.div>

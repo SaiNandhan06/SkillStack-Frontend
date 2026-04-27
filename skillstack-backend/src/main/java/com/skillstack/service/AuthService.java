@@ -51,14 +51,29 @@ public class AuthService {
     }
 
     public AuthResponse login(AuthRequest.Login req) {
+        User user = userRepository.findByEmail(req.email())
+                .orElseThrow(() -> new IllegalArgumentException("Email doesn't exist"));
+
+        if (!passwordEncoder.matches(req.password(), user.getPassword())) {
+            throw new IllegalArgumentException("Password is wrong");
+        }
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.email(), req.password())
         );
 
-        User user = userRepository.findByEmail(req.email())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
         String token = jwtService.generateToken(user);
         return new AuthResponse(token, UserResponse.from(user));
+    }
+
+    /**
+     * Validates email/password credentials without issuing a token.
+     * Throws an AuthenticationException if the credentials are invalid.
+     * Used in the first step of the OTP login flow.
+     */
+    public void validateCredentials(AuthRequest.Login req) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(req.email(), req.password())
+        );
     }
 }

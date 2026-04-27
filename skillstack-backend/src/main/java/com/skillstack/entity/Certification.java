@@ -35,6 +35,14 @@ public class Certification {
     @Column(nullable = false)
     private VerificationStatus verificationStatus = VerificationStatus.PENDING;
 
+    /** Original filename of the uploaded certificate document (nullable). */
+    @Column(name = "file_name")
+    private String fileName;
+
+    /** Server-relative path / URL to the stored certificate file (nullable). */
+    @Column(name = "file_url")
+    private String fileUrl;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 

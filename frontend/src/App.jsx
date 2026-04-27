@@ -12,6 +12,7 @@ import Goals from "./pages/Goals";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import InfoPage from "./pages/InfoPage";
 // Admin Interface
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboardLayout from "./components/dashboard/AdminDashboardLayout";
@@ -77,6 +78,7 @@ function AppContent() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/p/:slug" element={<InfoPage />} />
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
 

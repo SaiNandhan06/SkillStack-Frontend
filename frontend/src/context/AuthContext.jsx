@@ -44,6 +44,18 @@ export function AuthProvider({ children }) {
         return normalizedUser;
     };
 
+    /**
+     * Accepts an already-resolved { token, user } payload (e.g. from OTP verify-login).
+     * Stores the token and sets context state without making another API call.
+     */
+    const loginWithData = (authData) => {
+        const { token, user } = authData;
+        localStorage.setItem('token', token);
+        const normalizedUser = normalizeUser(user);
+        setUser(normalizedUser);
+        return normalizedUser;
+    };
+
     const register = async (name, email, password) => {
         const response = await api.post('/auth/register', { name, email, password });
         const { token, user } = response.data;
@@ -73,7 +85,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout, updateUser }}>
+        <AuthContext.Provider value={{ user, loading, login, loginWithData, register, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );

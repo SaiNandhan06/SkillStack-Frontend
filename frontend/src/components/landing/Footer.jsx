@@ -4,10 +4,30 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const links = {
-    Product: ["Features", "Pricing", "Changelog", "Roadmap"],
-    Company: ["About", "Blog", "Careers", "Press"],
-    Resources: ["Documentation", "API Reference", "Security", "Status"],
-    Legal: ["Privacy Policy", "Terms of Service", "Cookie Policy", "GDPR"],
+    Product: [
+      { name: "Features", path: "/p/features" },
+      { name: "Pricing", path: "/p/pricing" },
+      { name: "Changelog", path: "/p/changelog" },
+      { name: "Roadmap", path: "/p/roadmap" }
+    ],
+    Company: [
+      { name: "About", path: "/p/about" },
+      { name: "Blog", path: "/p/blog" },
+      { name: "Careers", path: "/p/careers" },
+      { name: "Press", path: "/p/press" }
+    ],
+    Resources: [
+      { name: "Documentation", path: "/p/documentation" },
+      { name: "API Reference", path: "/p/api-reference" },
+      { name: "Security", path: "/p/security" },
+      { name: "Status", path: "/p/status" }
+    ],
+    Legal: [
+      { name: "Privacy Policy", path: "/p/privacy" },
+      { name: "Terms of Service", path: "/p/terms" },
+      { name: "Cookie Policy", path: "/p/cookie-policy" },
+      { name: "GDPR", path: "/p/gdpr" }
+    ],
   };
 
   return (
@@ -32,13 +52,13 @@ export default function Footer() {
               </h4>
               <ul className="space-y-2.5">
                 {items.map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
+                  <li key={item.name}>
+                    <Link
+                      to={item.path}
                       className="font-body text-sm text-white/50 hover:text-white transition-colors duration-200"
                     >
-                      {item}
-                    </a>
+                      {item.name}
+                    </Link>
                   </li>
                 ))}
               </ul>

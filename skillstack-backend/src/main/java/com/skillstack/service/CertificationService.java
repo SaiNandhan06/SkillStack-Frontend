@@ -18,6 +18,7 @@ import java.util.List;
 public class CertificationService {
 
     private final CertificationRepository certRepository;
+    private final NotificationService notificationService;
 
     // ── User operations ───────────────────────────────────────────────────────────
 
@@ -86,6 +87,13 @@ public class CertificationService {
                 };
 
         cert.setVerificationStatus(newStatus);
+        
+        // Notify the user
+        if (newStatus == Certification.VerificationStatus.VERIFIED || newStatus == Certification.VerificationStatus.REJECTED) {
+            String msg = "Your certification \"" + cert.getName() + "\" has been " + newStatus.name().toLowerCase() + " by an admin.";
+            notificationService.createForUser(cert.getUser().getId(), msg);
+        }
+
         return CertificationResponse.from(certRepository.save(cert));
     }
 

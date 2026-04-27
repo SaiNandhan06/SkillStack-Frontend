@@ -22,8 +22,8 @@ export default function Profile() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-4xl mx-auto space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 className="font-display font-bold text-white text-3xl mb-1">Public Profile</h1>
-                    <p className="font-mono-accent text-xs text-white/40 uppercase tracking-widest">Share your validated career portfolio</p>
+                    <h1 className="font-display font-bold text-white text-3xl mb-1 print:text-black">Public Profile</h1>
+                    <p className="font-mono-accent text-xs text-white/40 uppercase tracking-widest print:text-gray-600">Share your validated career portfolio</p>
                 </div>
                 <div className="flex items-center gap-3 print:hidden">
                     <button onClick={handleShare} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-mono-accent text-xs uppercase tracking-widest hover:bg-white/10 transition-colors">
@@ -47,19 +47,19 @@ export default function Profile() {
                         </div>
 
                         <div className="pt-14 sm:pt-16 flex-1 print:pt-4">
-                            <h2 className="font-display font-bold text-white text-2xl mb-1">{user?.name || 'Demo User'}</h2>
-                            <p className="font-body text-white/60 text-lg mb-4 flex items-center gap-2">
+                            <h2 className="font-display font-bold text-white text-2xl mb-1 print:text-black">{user?.name || 'Demo User'}</h2>
+                            <p className="font-body text-white/60 text-lg mb-4 flex items-center gap-2 print:text-gray-800">
                                 <Briefcase className="w-4 h-4" /> {settings?.role || 'Professional'}
                             </p>
 
                             <div className="flex flex-wrap items-center gap-6 mt-4">
                                 {settings?.location && (
-                                    <span className="flex items-center gap-2 font-mono-accent text-xs text-white/40 uppercase tracking-widest">
-                                        <MapPin className="w-4 h-4 text-[#00D9FF]" /> {settings.location}
+                                    <span className="flex items-center gap-2 font-mono-accent text-xs text-white/40 uppercase tracking-widest print:text-gray-600">
+                                        <MapPin className="w-4 h-4 text-[#00D9FF] print:text-blue-600" /> {settings.location}
                                     </span>
                                 )}
-                                <span className="flex items-center gap-2 font-mono-accent text-xs text-white/40 uppercase tracking-widest">
-                                    <Mail className="w-4 h-4 text-[#A855F7]" /> {user?.email}
+                                <span className="flex items-center gap-2 font-mono-accent text-xs text-white/40 uppercase tracking-widest print:text-gray-600">
+                                    <Mail className="w-4 h-4 text-[#A855F7] print:text-purple-600" /> {user?.email}
                                 </span>
                             </div>
                         </div>
@@ -69,26 +69,26 @@ export default function Profile() {
 
                     <div className="grid md:grid-cols-2 gap-8">
                         <div>
-                            <h3 className="font-display font-semibold text-white/80 text-lg mb-4 flex items-center gap-2"><Award className="w-5 h-5 text-[#00D9FF]" /> Top Skills</h3>
+                            <h3 className="font-display font-semibold text-white/80 text-lg mb-4 flex items-center gap-2 print:text-black"><Award className="w-5 h-5 text-[#00D9FF] print:text-blue-600" /> Top Skills</h3>
                             <div className="flex flex-wrap gap-2">
                                 {skills.map(skill => (
-                                    <span key={skill.id} className="px-3 py-1.5 rounded-lg border border-[#00D9FF]/30 bg-[#00D9FF]/10 text-[#00D9FF] font-mono-accent text-xs uppercase tracking-widest">
+                                    <span key={skill.id} className="px-3 py-1.5 rounded-lg border border-[#00D9FF]/30 bg-[#00D9FF]/10 text-[#00D9FF] font-mono-accent text-xs uppercase tracking-widest print:border-blue-300 print:text-blue-800 print:bg-blue-50">
                                         {skill.name}
                                     </span>
                                 ))}
-                                {skills.length === 0 && <span className="text-white/40 font-mono-accent text-[10px] uppercase">No skills added yet.</span>}
+                                {skills.length === 0 && <span className="text-white/40 font-mono-accent text-[10px] uppercase print:text-gray-500">No skills added yet.</span>}
                             </div>
                         </div>
                         <div>
-                            <h3 className="font-display font-semibold text-white/80 text-lg mb-4 flex items-center gap-2"><Briefcase className="w-5 h-5 text-[#A855F7]" /> Active Certifications</h3>
+                            <h3 className="font-display font-semibold text-white/80 text-lg mb-4 flex items-center gap-2 print:text-black"><Briefcase className="w-5 h-5 text-[#A855F7] print:text-purple-600" /> Active Certifications</h3>
                             <div className="space-y-3">
                                 {certs.filter(c => c.status !== 'expired').map(cert => (
-                                    <div key={cert.id} className="px-4 py-3 rounded-xl border border-white/10 bg-white/5 flex items-center justify-between">
-                                        <span className="font-body text-sm text-white/80">{cert.name}</span>
-                                        <span className="font-mono-accent text-[10px] text-green-400 bg-green-400/10 px-2 py-0.5 rounded uppercase tracking-widest border border-green-400/20">Verified</span>
+                                    <div key={cert.id} className="px-4 py-3 rounded-xl border border-white/10 bg-white/5 flex items-center justify-between print:border-gray-300 print:bg-white">
+                                        <span className="font-body text-sm text-white/80 print:text-black">{cert.name}</span>
+                                        <span className="font-mono-accent text-[10px] text-green-400 bg-green-400/10 px-2 py-0.5 rounded uppercase tracking-widest border border-green-400/20 print:text-green-700 print:bg-green-50 print:border-green-300">Verified</span>
                                     </div>
                                 ))}
-                                {certs.filter(c => c.status !== 'expired').length === 0 && <span className="text-white/40 font-mono-accent text-[10px] uppercase">No active certifications.</span>}
+                                {certs.filter(c => c.status !== 'expired').length === 0 && <span className="text-white/40 font-mono-accent text-[10px] uppercase print:text-gray-500">No active certifications.</span>}
                             </div>
                         </div>
                     </div>

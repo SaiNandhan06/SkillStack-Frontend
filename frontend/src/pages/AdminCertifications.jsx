@@ -229,6 +229,18 @@ export default function AdminCertifications() {
                                                         <span className="font-mono-accent text-[10px] text-white/40 uppercase">Issued: {cert.issueDate || 'N/A'}</span>
                                                         <span className="font-mono-accent text-[10px] text-white/40 uppercase">Exp: {cert.expiryDate || 'N/A'}</span>
                                                     </div>
+                                                    {cert.fileUrl && (
+                                                        <div className="mt-2">
+                                                            <a 
+                                                                href={`http://localhost:8080${cert.fileUrl}`} 
+                                                                target="_blank" 
+                                                                rel="noreferrer"
+                                                                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#00D9FF]/10 text-[#00D9FF] rounded-lg hover:bg-[#00D9FF]/20 transition-colors text-xs font-medium"
+                                                            >
+                                                                View Document ({cert.fileName || 'File'})
+                                                            </a>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td className="p-4 align-top">

@@ -22,10 +22,10 @@ export default function Navbar({ onCTAClick }) {
   }, []);
 
   const navLinks = [
-    { label: "Features", href: "#features" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "FAQ", href: "#faq" },
+    { label: "Features", href: "/#features" },
+    { label: "Testimonials", href: "/#testimonials" },
+    { label: "Pricing", href: "/#pricing" },
+    { label: "FAQ", href: "/#faq" },
   ];
 
   return (

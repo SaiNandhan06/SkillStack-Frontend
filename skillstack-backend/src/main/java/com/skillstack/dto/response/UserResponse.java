@@ -8,6 +8,7 @@ public class UserResponse {
     public String name;
     public String email;
     public String role;
+    public java.time.LocalDateTime createdAt;
     // settings (nullable)
     public String bio;
     public String location;
@@ -20,6 +21,7 @@ public class UserResponse {
         r.name     = user.getName();
         r.email    = user.getEmail();
         r.role     = user.getRole().name();
+        r.createdAt = user.getCreatedAt();
 
         UserSettings s = user.getSettings();
         if (s != null) {

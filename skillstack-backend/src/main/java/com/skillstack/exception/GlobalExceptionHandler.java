@@ -50,6 +50,12 @@ public class GlobalExceptionHandler {
         return error(HttpStatus.FORBIDDEN, "Access denied", null);
     }
 
+    // ── Runtime errors (e.g. mail failures, file I/O) ────────────────────────────
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> handleRuntime(RuntimeException ex) {
+        return error(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), null);
+    }
+
     // ── Fallback 500 ─────────────────────────────────────────────────────────────
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAll(Exception ex) {

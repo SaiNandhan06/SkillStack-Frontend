@@ -15,6 +15,8 @@ public class CertificationResponse {
     public String verifyStatus;   // "pending", "verified", "rejected"
     public String status;         // "active" or "expired"
     public LocalDateTime createdAt;
+    public String fileName;       // original uploaded file name (nullable)
+    public String fileUrl;        // URL to download/view the file (nullable)
 
     public static CertificationResponse from(Certification c) {
         CertificationResponse r = new CertificationResponse();
@@ -28,6 +30,8 @@ public class CertificationResponse {
         r.verifyStatus       = c.getVerificationStatus().name().toLowerCase();
         r.status             = c.getEffectiveStatus().equalsIgnoreCase("EXPIRED") ? "expired" : "active";
         r.createdAt          = c.getCreatedAt();
+        r.fileName           = c.getFileName();
+        r.fileUrl            = c.getFileUrl();
         return r;
     }
 }

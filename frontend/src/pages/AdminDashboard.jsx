@@ -11,6 +11,23 @@ export default function AdminDashboard() {
         totalCertifications: 0,
         activeAdmins: 0
     });
+    const [activities, setActivities] = useState([]);
+
+    // Helper to format time ago
+    const timeAgo = (date) => {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        let interval = seconds / 31536000;
+        if (interval > 1) return Math.floor(interval) + " years ago";
+        interval = seconds / 2592000;
+        if (interval > 1) return Math.floor(interval) + " months ago";
+        interval = seconds / 86400;
+        if (interval > 1) return Math.floor(interval) + " days ago";
+        interval = seconds / 3600;
+        if (interval > 1) return Math.floor(interval) + " hours ago";
+        interval = seconds / 60;
+        if (interval > 1) return Math.floor(interval) + " minutes ago";
+        return Math.floor(seconds) + " seconds ago";
+    };
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -29,6 +46,25 @@ export default function AdminDashboard() {
                     totalCertifications: certs.length,
                     pendingVerifications: certs.filter(c => c.verifyStatus === 'pending').length
                 });
+
+                const recentActivities = [
+                    ...users.filter(u => u.createdAt).map(u => ({
+                        id: `user-${u.id}`,
+                        type: 'user_registration',
+                        message: <>New user registration: <strong>{u.email}</strong></>,
+                        createdAt: new Date(u.createdAt),
+                        color: 'bg-green-500'
+                    })),
+                    ...certs.filter(c => c.createdAt).map(c => ({
+                        id: `cert-${c.id}`,
+                        type: 'cert_upload',
+                        message: <>Certification <strong>{c.name}</strong> uploaded by <strong>{c.userName}</strong></>,
+                        createdAt: new Date(c.createdAt),
+                        color: 'bg-yellow-500'
+                    }))
+                ].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5);
+
+                setActivities(recentActivities);
             } catch (error) {
                 console.error('Failed to load admin stats', error);
             }
@@ -129,28 +165,20 @@ export default function AdminDashboard() {
                         </div>
                     </div>
                     
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
-                            <div className="w-2 h-2 rounded-full bg-green-500" />
-                            <div className="flex-1">
-                                <p className="font-display text-white text-sm">New user registration: <strong>john.doe@example.com</strong></p>
-                                <p className="font-mono-accent text-[10px] text-white/40 uppercase">2 minutes ago</p>
+                    <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                        {activities.length > 0 ? activities.map(act => (
+                            <div key={act.id} className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                                <div className={`w-2 h-2 rounded-full ${act.color} shrink-0 shadow-[0_0_8px_currentColor]`} />
+                                <div className="flex-1">
+                                    <p className="font-display text-white text-sm">{act.message}</p>
+                                    <p className="font-mono-accent text-[10px] text-white/40 uppercase mt-1">{timeAgo(act.createdAt)}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
-                            <div className="w-2 h-2 rounded-full bg-yellow-500" />
-                            <div className="flex-1">
-                                <p className="font-display text-white text-sm">Certification uploaded pending review</p>
-                                <p className="font-mono-accent text-[10px] text-white/40 uppercase">15 minutes ago</p>
+                        )) : (
+                            <div className="flex items-center justify-center p-8 rounded-xl bg-white/5 border border-white/10">
+                                <p className="font-body text-white/40 text-sm">No recent activity found.</p>
                             </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
-                            <div className="w-2 h-2 rounded-full bg-blue-500" />
-                            <div className="flex-1">
-                                <p className="font-display text-white text-sm">System configuration updated by <strong>Admin</strong></p>
-                                <p className="font-mono-accent text-[10px] text-white/40 uppercase">1 hour ago</p>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
 

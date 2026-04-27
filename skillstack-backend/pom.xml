@@ -85,7 +85,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
 
     <!-- Swagger UI / OpenAPI -->
@@ -95,17 +95,13 @@
       <version>2.5.0</version> <!-- You can use a specific version or omit if managed -->
     </dependency>
 
-    <!-- Test -->
+    <!-- Email (JavaMailSender) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
+      <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-test</artifactId>
-      <scope>test</scope>
-    </dependency>
+
+
   </dependencies>
 
   <build>
