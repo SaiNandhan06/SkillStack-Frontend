@@ -125,7 +125,17 @@ cd SkillStack
    spring.datasource.password=your_password
    ```
 
-### 3️⃣ Run the Backend (Spring Boot)
+### 3️⃣ Email / SMTP Setup (Google)
+To allow the backend to send OTP verification emails:
+1. Go to your Google Account -> Security -> 2-Step Verification.
+2. Search for **App Passwords** and generate a 16-character code.
+3. Open `application.properties` and update your email and app password:
+   ```properties
+   spring.mail.username=your-actual-email@gmail.com
+   spring.mail.password=your-16-letter-app-password
+   ```
+
+### 4️⃣ Run the Backend (Spring Boot)
 1. Navigate to the backend directory:
    ```bash
    cd skillstack-backend
@@ -138,7 +148,7 @@ cd SkillStack
 3. The server will start at `http://localhost:8080`.
 4. **API Documentation (Swagger)**: You can view and test all available endpoints by visiting the Swagger UI at `http://localhost:8080/swagger-ui/index.html`.
 
-### 4️⃣ Run the Frontend (React + Vite)
+### 5️⃣ Run the Frontend (React + Vite)
 1. Open a **new terminal** and navigate to the frontend directory:
    ```bash
    cd frontend
