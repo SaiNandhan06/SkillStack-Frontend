@@ -1,11 +1,11 @@
 # ── Stage 1: Build ──────────────────────────────────────────────────────────
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /app
 
 COPY . .
 
-RUN chmod +x mvnw && ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # ── Stage 2: Runtime ────────────────────────────────────────────────────────
 FROM eclipse-temurin:21-jre-alpine
