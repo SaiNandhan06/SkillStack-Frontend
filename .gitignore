@@ -34,18 +34,5 @@ core
 
 **/tempobook/**
 
-# Build artifacts
-target/
-*.jar
-*.war
-*.ear
-bin/
-out/
-
-# User uploads
-skillstack-backend/uploads/
-
 # Local Environment Variables
 .env
-application-local.properties
-application-dev.properties
